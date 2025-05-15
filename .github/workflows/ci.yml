@@ -28,5 +28,10 @@ jobs:
           mkdir -p data
           cp healthapp/data/Training.csv data/Training.csv
 
+      - name: Ensure model exists
+        run: |
+          mkdir -p models
+          cp healthapp/models/disease_predictor.joblib models/disease_predictor.joblib
+
       - name: Run tests
         run: pytest

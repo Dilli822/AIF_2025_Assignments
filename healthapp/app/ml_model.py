@@ -1,11 +1,11 @@
 import numpy as np
 import pandas as pd
-
+import joblib
 from sklearn.preprocessing import LabelEncoder
 from sklearn.ensemble import RandomForestClassifier
 
 # Load and preprocess data
-df = pd.read_csv("./data/Training.csv", index_col=0)
+df = pd.read_csv("../data/Training.csv", index_col=0)
 df = df.drop(df.columns[-1], axis=1)  # Drop last null column
 
 # Encode the target labels
@@ -41,3 +41,12 @@ def predict(symptoms: str):
     prediction = rf.predict(input_vector)
     predicted_label = le.inverse_transform(prediction)[0]
     return predicted_label
+
+
+model_path = "../models/disease_predict.joblib"
+
+# Load the model
+model = joblib.load(model_path)
+
+print("Model loaded successfully!")
+print(model)
