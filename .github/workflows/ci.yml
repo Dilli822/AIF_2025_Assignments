@@ -31,7 +31,7 @@ jobs:
       - name: Ensure model exists
         run: |
           mkdir -p models
-          cp healthapp/models/disease_predictor.joblib models/disease_predictor.joblib
+          cp healthapp/models/disease_predict.joblib models/disease_predict.joblib
 
       - name: Run tests
         run: pytest
