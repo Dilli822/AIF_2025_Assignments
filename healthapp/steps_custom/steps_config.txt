@@ -20,7 +20,7 @@
 19. check the docker image using cmd: docker images
 20. run the docker container using cmd: docker run -p 5000:5000 disease-predictor
 
-==========================================================
+======================================================================================
 [16]
 COMMAND   PID  USER   FD   TYPE             DEVICE SIZE/OFF NODE NAME
 Python  63537 dilli    3u  IPv4 0x59872c91ed64dee1      0t0  TCP localhost:irdmi (LISTEN)
