@@ -1,6 +1,5 @@
 from fastapi import FastAPI
-from app import schemas
-from app import ml_model
+from app import schemas, ml_model
 
 app = FastAPI(title="Disease Predictor API")
 
@@ -12,5 +11,5 @@ def read_root():
 
 @app.post("/predict")
 def predict(input: schemas.Symptoms):
-    prediction = ml_model.predict(input)
+    prediction = ml_model.predict(input.symptoms)
     return {"prediction": prediction}

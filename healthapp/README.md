@@ -158,15 +158,10 @@ pre-commit run --all-files
 
 ```json
 {
-  "fever": true,
-  "cough": true,
-  "skin_rash": false,
-  "joint_pain": false,
-  "stomach_pain": true,
-  "vomiting": false,
-  "fatigue": true,
-  "headache": false
+  "symptoms": "chronic fatigue, chest pain, muscle pain"
 }
+
+
 ```
 
 **Response Example:**
