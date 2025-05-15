@@ -12,5 +12,5 @@ def read_root():
 
 @app.post("/predict")
 def predict(input: schemas.Symptoms):
-    prediction = ml_model.predict(input.symptoms)
+    prediction = ml_model.predict_disease(input)
     return {"prediction": prediction}
