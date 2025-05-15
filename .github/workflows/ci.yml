@@ -26,7 +26,7 @@ jobs:
       - name: Ensure data exists
         run: |
           mkdir -p data
-          cp path/to/Training.csv data/Training.csv
+          cp healthapp/data/Training.csv data/Training.csv
 
       - name: Run tests
         run: pytest
