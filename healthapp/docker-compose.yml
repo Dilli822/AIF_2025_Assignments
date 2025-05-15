@@ -1,0 +1,12 @@
+version: '3.8'
+
+services:
+  app:
+    build: .
+    volumes:
+      - .:/app
+    ports:
+      - "8010:8010"   # change if your app uses another port
+    environment:
+      - PYTHONUNBUFFERED=1
+    command: python healthapp/app/main.py
