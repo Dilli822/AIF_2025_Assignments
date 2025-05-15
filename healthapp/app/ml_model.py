@@ -1,6 +1,6 @@
 import joblib
 
-model_path = "healthapp/models/disease_predict.joblib"
+model_path = "../models/disease_predict.joblib"
 # Load the model
 model = joblib.load(model_path)
 
