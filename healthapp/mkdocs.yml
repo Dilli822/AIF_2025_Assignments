@@ -1,0 +1,6 @@
+site_name: Disease Predictor App
+theme:
+  name: material
+
+nav:
+  - Home: index.md
