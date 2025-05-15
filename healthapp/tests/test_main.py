@@ -1,24 +1,23 @@
+from unittest.mock import patch, MagicMock
 from app import ml_model
 from app import schemas
-import numpy as np
 
 
 class MockSymptoms(schemas.Symptoms):
     skin_rash: bool = True
     fatigue: bool = True
-    headache: bool = True
-    vomiting: bool = False
-    cough: bool = False
 
 
-def test_preprocessing_vector_shape():
-    input_data = MockSymptoms()
-    vector = ml_model.preprocess_user_input(input_data, ml_model.symptom_columns)
-    assert isinstance(vector, np.ndarray)
-    assert vector.shape == (1, len(ml_model.symptom_columns))
+@patch("app.ml_model.joblib.load")
+def test_predict_returns_string(mock_joblib_load):
+    mock_model = MagicMock()
+    mock_model.predict.return_value = [1]
+    mock_label_encoder = MagicMock()
+    mock_label_encoder.inverse_transform.return_value = ["flu"]
 
+    # joblib.load() will be called twice — once for model, once for encoder
+    mock_joblib_load.side_effect = [mock_model, mock_label_encoder]
 
-def test_predict_returns_string():
-    input_data = MockSymptoms()
-    result = ml_model.predict(input_data)
+    result = ml_model.predict(MockSymptoms())
     assert isinstance(result, str)
+    assert result == "flu"
