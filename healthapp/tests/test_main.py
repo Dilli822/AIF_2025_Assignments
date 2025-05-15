@@ -10,6 +10,9 @@ class MockSymptoms(schemas.Symptoms):
 
 @patch("app.ml_model.joblib.load")
 def test_predict_returns_string(mock_joblib_load):
+    # Clear cache before test to avoid using stale cached result
+    ml_model.load_model_and_assets.cache_clear()
+
     mock_model = MagicMock()
     mock_model.predict.return_value = [1]
     mock_label_encoder = MagicMock()
