@@ -1,14 +1,21 @@
-# healthapp/app/ml_model.py
 import joblib
 import os
 
-MODEL_PATH = os.path.join(os.path.dirname(__file__), "../models/disease_predict.joblib")
-MODEL_PATH = os.path.abspath(MODEL_PATH)
+# Set paths to the model and encoder
+MODEL_PATH = os.path.abspath(
+    os.path.join(os.path.dirname(__file__), "../models/disease_predict.joblib")
+)
+ENCODER_PATH = os.path.abspath(
+    os.path.join(os.path.dirname(__file__), "../models/label_encoder.joblib")
+)
 
 try:
-    model = joblib.load(MODEL_PATH)
-    print("✅ Model loaded successfully.")
+    rf = joblib.load(MODEL_PATH)
+    le = joblib.load(ENCODER_PATH)
+    print("✅ Model and LabelEncoder loaded successfully.")
 except FileNotFoundError:
-    print(f"❌ Model file not found at {MODEL_PATH}")
+    print("❌ Model or Encoder file not found.")
+    rf, le = None, None
 except Exception as e:
-    print(f"❌ Failed to load model: {e}")
+    print(f"❌ Error loading model/encoder: {e}")
+    rf, le = None, None
