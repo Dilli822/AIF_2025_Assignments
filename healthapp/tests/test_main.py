@@ -12,7 +12,7 @@ def test_read_root():
 
 def test_predict():
     # Example input for the Symptoms model
-    test_input = {"symptom1": "fever", "symptom2": "cough"}
+    test_input = {"fever": True, "cough": False}
 
     # If `schemas.Symptoms` is a Pydantic model, make sure to match the fields accordingly
     response = client.post("/predict", json=test_input)
