@@ -1,0 +1,1224 @@
+| 5 |
+| 5 |
+| 5 |
+| 5 |
++---+
+98 rows in set (0.07 sec)
+
+mysql> select * from customers where creditLimit > 1000 Limit 5;
++----------------+----------------------------+-----------------+------------------+--------------+------------------------------+--------------+-----------+----------+------------+-----------+------------------------+-------------+
+| customerNumber | customerName               | contactLastName | contactFirstName | phone        | addressLine1                 | addressLine2 | city      | state    | postalCode | country   | salesRepEmployeeNumber | creditLimit |
++----------------+----------------------------+-----------------+------------------+--------------+------------------------------+--------------+-----------+----------+------------+-----------+------------------------+-------------+
+|            103 | Atelier graphique          | Schmitt         | Carine           | 40.32.2555   | 54, rue Royale               | NULL         | Nantes    | NULL     | 44000      | France    |                   1370 |    21000.00 |
+|            112 | Signal Gift Stores         | King            | Jean             | 7025551838   | 8489 Strong St.              | NULL         | Las Vegas | NV       | 83030      | USA       |                   1166 |    71800.00 |
+|            114 | Australian Collectors, Co. | Ferguson        | Peter            | 03 9520 4555 | 636 St Kilda Road            | Level 3      | Melbourne | Victoria | 3004       | Australia |                   1611 |   117300.00 |
+|            119 | La Rochelle Gifts          | Labrune         | Janine           | 40.67.8555   | 67, rue des Cinquante Otages | NULL         | Nantes    | NULL     | 44000      | France    |                   1370 |   118200.00 |
+|            121 | Baane Mini Imports         | Bergulfsen      | Jonas            | 07-98 9555   | Erling Skakkes gate 78       | NULL         | Stavern   | NULL     | 4110       | Norway    |                   1504 |    81700.00 |
++----------------+----------------------------+-----------------+------------------+--------------+------------------------------+--------------+-----------+----------+------------+-----------+------------------------+-------------+
+5 rows in set (0.01 sec)
+
+mysql> Select *from employees where reportsTo = (Select employeeNumber from employee where jotTitle = "VP Sales");
+ERROR 1146 (42S02): Table 'classicmodels.employee' doesn't exist
+mysql> show tables;
++-------------------------+
+| Tables_in_classicmodels |
++-------------------------+
+| customers               |
+| employees               |
+| offices                 |
+| orderdetails            |
+| orders                  |
+| payments                |
+| productlines            |
+| products                |
++-------------------------+
+8 rows in set (0.03 sec)
+
+mysql> select * from employees where reportsTo = (Select employeeNumber from employee where jobTitle = "VP Sales");
+ERROR 1146 (42S02): Table 'classicmodels.employee' doesn't exist
+mysql> SELECT * FROM employees WHERE reportsTo = (
+    ->     SELECT employeeNumber FROM employees WHERE jobTitle = 'VP Sales'
+    -> );
++----------------+-----------+-----------+-----------+---------------------------------+------------+-----------+----------------------+
+| employeeNumber | lastName  | firstName | extension | email                           | officeCode | reportsTo | jobTitle             |
++----------------+-----------+-----------+-----------+---------------------------------+------------+-----------+----------------------+
+|           1088 | Patterson | William   | x4871     | wpatterson@classicmodelcars.com | 6          |      1056 | Sales Manager (APAC) |
+|           1102 | Bondur    | Gerard    | x5408     | gbondur@classicmodelcars.com    | 4          |      1056 | Sale Manager (EMEA)  |
+|           1143 | Bow       | Anthony   | x5428     | abow@classicmodelcars.com       | 1          |      1056 | Sales Manager (NA)   |
+|           1621 | Nishi     | Mami      | x101      | mnishi@classicmodelcars.com     | 5          |      1056 | Sales Rep            |
++----------------+-----------+-----------+-----------+---------------------------------+------------+-----------+----------------------+
+4 rows in set (0.01 sec)
+
+mysql> clear
+mysql> system clear;
+
+mysql> show tables;
++-------------------------+
+| Tables_in_classicmodels |
++-------------------------+
+| customers               |
+| employees               |
+| offices                 |
+| orderdetails            |
+| orders                  |
+| payments                |
+| productlines            |
+| products                |
++-------------------------+
+8 rows in set (0.03 sec)
+
+mysql> SELECT * from employess where reportsTo = ( Select employeeNumber from employees where jobtitle = "vp sales");
+ERROR 1146 (42S02): Table 'classicmodels.employess' doesn't exist
+mysql> SELECT * FROM employees WHERE reportsTo = ( SELECT employeeNumber FROM employees WHERE jobTitle = "VP Sales");
++----------------+-----------+-----------+-----------+---------------------------------+------------+-----------+----------------------+
+| employeeNumber | lastName  | firstName | extension | email                           | officeCode | reportsTo | jobTitle             |
++----------------+-----------+-----------+-----------+---------------------------------+------------+-----------+----------------------+
+|           1088 | Patterson | William   | x4871     | wpatterson@classicmodelcars.com | 6          |      1056 | Sales Manager (APAC) |
+|           1102 | Bondur    | Gerard    | x5408     | gbondur@classicmodelcars.com    | 4          |      1056 | Sale Manager (EMEA)  |
+|           1143 | Bow       | Anthony   | x5428     | abow@classicmodelcars.com       | 1          |      1056 | Sales Manager (NA)   |
+|           1621 | Nishi     | Mami      | x101      | mnishi@classicmodelcars.com     | 5          |      1056 | Sales Rep            |
++----------------+-----------+-----------+-----------+---------------------------------+------------+-----------+----------------------+
+4 rows in set (0.01 sec)
+
+mysql> SELECT * FROM employees where reportsTO IN ( Select employeeNumber from employees where jobTitle like '%Sales Manager%');
++----------------+-----------+-----------+-----------+---------------------------------+------------+-----------+-----------+
+| employeeNumber | lastName  | firstName | extension | email                           | officeCode | reportsTo | jobTitle  |
++----------------+-----------+-----------+-----------+---------------------------------+------------+-----------+-----------+
+|           1611 | Fixter    | Andy      | x101      | afixter@classicmodelcars.com    | 6          |      1088 | Sales Rep |
+|           1612 | Marsh     | Peter     | x102      | pmarsh@classicmodelcars.com     | 6          |      1088 | Sales Rep |
+|           1619 | King      | Tom       | x103      | tking@classicmodelcars.com      | 6          |      1088 | Sales Rep |
+|           1165 | Jennings  | Leslie    | x3291     | ljennings@classicmodelcars.com  | 1          |      1143 | Sales Rep |
+|           1166 | Thompson  | Leslie    | x4065     | lthompson@classicmodelcars.com  | 1          |      1143 | Sales Rep |
+|           1188 | Firrelli  | Julie     | x2173     | jfirrelli@classicmodelcars.com  | 2          |      1143 | Sales Rep |
+|           1216 | Patterson | Steve     | x4334     | spatterson@classicmodelcars.com | 2          |      1143 | Sales Rep |
+|           1286 | Tseng     | Foon Yue  | x2248     | ftseng@classicmodelcars.com     | 3          |      1143 | Sales Rep |
+|           1323 | Vanauf    | George    | x4102     | gvanauf@classicmodelcars.com    | 3          |      1143 | Sales Rep |
++----------------+-----------+-----------+-----------+---------------------------------+------------+-----------+-----------+
+9 rows in set (0.04 sec)
+
+mysql> SELECT * FROM customer WHERE state IS NOT NULL AND COUNTRY = 'USA' AND creditLimit between 100000 AND 200000;
+ERROR 1146 (42S02): Table 'classicmodels.customer' doesn't exist
+mysql> SELECT * FROM customers WHERE state IS NOT NULL AND COUNTRY = 'USA' AND creditLimit between 100000 AND 200000;
++----------------+------------------------------+-----------------+------------------+------------+---------------------------+--------------+---------------+-------+------------+---------+------------------------+-------------+
+| customerNumber | customerName                 | contactLastName | contactFirstName | phone      | addressLine1              | addressLine2 | city          | state | postalCode | country | salesRepEmployeeNumber | creditLimit |
++----------------+------------------------------+-----------------+------------------+------------+---------------------------+--------------+---------------+-------+------------+---------+------------------------+-------------+
+|            131 | Land of Toys Inc.            | Lee             | Kwai             | 2125557818 | 897 Long Airport Avenue   | NULL         | NYC           | NY    | 10022      | USA     |                   1323 |   114900.00 |
+|            151 | Muscle Machine Inc           | Young           | Jeff             | 2125557413 | 4092 Furth Circle         | Suite 400    | NYC           | NY    | 10022      | USA     |                   1286 |   138500.00 |
+|            157 | Diecast Classics Inc.        | Leong           | Kelvin           | 2155551555 | 7586 Pompton St.          | NULL         | Allentown     | PA    | 70267      | USA     |                   1216 |   100600.00 |
+|            239 | Collectable Mini Designs Co. | Thompson        | Valarie          | 7605558146 | 361 Furth Circle          | NULL         | San Diego     | CA    | 91217      | USA     |                   1166 |   105000.00 |
+|            286 | Marta's Replicas Co.         | Hernandez       | Marta            | 6175558555 | 39323 Spinnaker Dr.       | NULL         | Cambridge     | MA    | 51247      | USA     |                   1216 |   123700.00 |
+|            319 | Mini Classics                | Frick           | Steve            | 9145554562 | 3758 North Pendale Street | NULL         | White Plains  | NY    | 24067      | USA     |                   1323 |   102700.00 |
+|            321 | Corporate Gift Ideas Co.     | Brown           | Julie            | 6505551386 | 7734 Strong St.           | NULL         | San Francisco | CA    | 94217      | USA     |                   1165 |   105000.00 |
+|            363 | Online Diecast Creations Co. | Young           | Dorothy          | 6035558647 | 2304 Long Airport Avenue  | NULL         | Nashua        | NH    | 62005      | USA     |                   1216 |   114200.00 |
++----------------+------------------------------+-----------------+------------------+------------+---------------------------+--------------+---------------+-------+------------+---------+------------------------+-------------+
+8 rows in set (0.01 sec)
+
+mysql> SELECT country, AVG(creditLimit) AS avgCreditLimit FROM customers GROUP BY country;
++--------------+----------------+
+| country      | avgCreditLimit |
++--------------+----------------+
+| France       |   77691.666667 |
+| USA          |   78102.777778 |
+| Australia    |   86060.000000 |
+| Norway       |   81700.000000 |
+| Poland       |       0.000000 |
+| Germany      |   19776.923077 |
+| Spain        |   73971.428571 |
+| Sweden       |   84750.000000 |
+| Denmark      |  102100.000000 |
+| Singapore    |   67233.333333 |
+| Norway       |   95950.000000 |
+| Portugal     |       0.000000 |
+| Japan        |   87800.000000 |
+| Finland      |   95266.666667 |
+| UK           |   88740.000000 |
+| Ireland      |   34700.000000 |
+| Canada       |   76200.000000 |
+| Hong Kong    |   58600.000000 |
+| Italy        |   97200.000000 |
+| Switzerland  |   47100.000000 |
+| Netherlands  |       0.000000 |
+| Belgium      |   51700.000000 |
+| New Zealand  |   90625.000000 |
+| South Africa |       0.000000 |
+| Austria      |   58500.000000 |
+| Philippines  |   81500.000000 |
+| Russia       |       0.000000 |
+| Israel       |       0.000000 |
++--------------+----------------+
+28 rows in set (0.02 sec)
+
+mysql> SELECT orderDate, customerName, COUNT(*) As totalOrders FROM orders GROUP BY orderDate, customerNumber HAVING COUNT(*) > 10;
+ERROR 1054 (42S22): Unknown column 'customerName' in 'field list'
+mysql> SELECT orderDate, customerNumber, COUNT(*) As totalOrders FROM orders GROUP BY orderDate, customerNumber HAVING COUNT(*) > 10;
+Empty set (0.02 sec)
+
+mysql> SELECT orderDate, customerNumber, COUNT(*) AS totalOrders FROM orders GROUP BY orderDate, customerNumber HAVING COUNT(*) > 10;
+Empty set (0.01 sec)
+
+mysql> SELECT orderDate, customerNumber, COUNT(*) AS totalOrders
+    -> FROM orders
+    -> GROUP BY orderDate, customerNumber
+    -> HAVING COUNT(*) > 10;
+Empty set (0.00 sec)
+
+mysql> SELECT orderDate, customerNumber, COUNT(*) AS totalOrders
+    -> FROM orders
+    -> GROUP BY orderDate, customerNumber
+    -> HAVING COUNT(*) > 10;
+Empty set (0.00 sec)
+
+mysql> SELECT (SELECT Concat(firstName, ' ', lastName) FROM employees e2 WHERE e2.employeeNumber = e1.reportsTo) AS supervisorName,
+    -> (SELECT jobTitle FROM employees e2 WHERE e2.employeeNumber = e1.reportsTo) AS supervisorTitle,
+    -> COUNT (*) AS totalSupervisees
+    -> FROM employees e1
+    -> WHERE e1.reportsTO IS NOT NULL
+    -> GROUP BY e1.reportsTo;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '*) AS totalSupervisees
+FROM employees e1
+WHERE e1.reportsTO IS NOT NULL
+GROUP B' at line 3
+mysql> SELECT (SELECT Concat(firstName, ' ', lastName) FROM employees e2 WHERE e2.employeeNumber = e1.reportsTo) AS supervisorName,  (SELECT jobTitle FROM employees e2 WHERE e2.employeeNumber = e1.reportsTo) AS supervisorTitle, COUNT(*) AS totalSupervisees FROM employees e1  WHERE e1.reportsTO IS NOT NULL GROUP BY e1.reportsTo;
++-------------------+----------------------+------------------+
+| supervisorName    | supervisorTitle      | totalSupervisees |
++-------------------+----------------------+------------------+
+| Diane Murphy      | President            |                2 |
+| Mary Patterson    | VP Sales             |                4 |
+| William Patterson | Sales Manager (APAC) |                3 |
+| Gerard Bondur     | Sale Manager (EMEA)  |                6 |
+| Anthony Bow       | Sales Manager (NA)   |                6 |
+| Mami Nishi        | Sales Rep            |                1 |
++-------------------+----------------------+------------------+
+6 rows in set (0.06 sec)
+
+mysql> SELECT (SELECT Concat(firstName, ' ', lastName) FROM employees e2 WHERE e2.employeeNumber = e1.reportsTo) AS supervisorName,  (SELECT jobTitle FROM employees e2 WHERE e2.employeeNumber = e1.reportsTo) AS supervisorTitle, COUNT(*) AS totalSupervisees FROM employees e1 JOIN employees e2 ON e1.reportsTo = e2.employeeNumber GROUP BY e1.reportsTo;
++-------------------+----------------------+------------------+
+| supervisorName    | supervisorTitle      | totalSupervisees |
++-------------------+----------------------+------------------+
+| Diane Murphy      | President            |                2 |
+| Mary Patterson    | VP Sales             |                4 |
+| William Patterson | Sales Manager (APAC) |                3 |
+| Gerard Bondur     | Sale Manager (EMEA)  |                6 |
+| Anthony Bow       | Sales Manager (NA)   |                6 |
+| Mami Nishi        | Sales Rep            |                1 |
++-------------------+----------------------+------------------+
+6 rows in set (0.06 sec)
+
+mysql> with avg_limit AS ( Select AVG(creditLimit) AS avgLimit FROM customers) SELECT * FROM customers WHERE creditLimit > (SELECT avgLimit FROM avg_limit);
++----------------+------------------------------------+-----------------+------------------+--------------------+-------------------------------+--------------------------+---------------+---------------+------------+-------------+------------------------+-------------+
+| customerNumber | customerName                       | contactLastName | contactFirstName | phone              | addressLine1                  | addressLine2             | city          | state         | postalCode | country     | salesRepEmployeeNumber | creditLimit |
++----------------+------------------------------------+-----------------+------------------+--------------------+-------------------------------+--------------------------+---------------+---------------+------------+-------------+------------------------+-------------+
+|            112 | Signal Gift Stores                 | King            | Jean             | 7025551838         | 8489 Strong St.               | NULL                     | Las Vegas     | NV            | 83030      | USA         |                   1166 |    71800.00 |
+|            114 | Australian Collectors, Co.         | Ferguson        | Peter            | 03 9520 4555       | 636 St Kilda Road             | Level 3                  | Melbourne     | Victoria      | 3004       | Australia   |                   1611 |   117300.00 |
+|            119 | La Rochelle Gifts                  | Labrune         | Janine           | 40.67.8555         | 67, rue des Cinquante Otages  | NULL                     | Nantes        | NULL          | 44000      | France      |                   1370 |   118200.00 |
+|            121 | Baane Mini Imports                 | Bergulfsen      | Jonas            | 07-98 9555         | Erling Skakkes gate 78        | NULL                     | Stavern       | NULL          | 4110       | Norway      |                   1504 |    81700.00 |
+|            124 | Mini Gifts Distributors Ltd.       | Nelson          | Susan            | 4155551450         | 5677 Strong St.               | NULL                     | San Rafael    | CA            | 97562      | USA         |                   1165 |   210500.00 |
+|            131 | Land of Toys Inc.                  | Lee             | Kwai             | 2125557818         | 897 Long Airport Avenue       | NULL                     | NYC           | NY            | 10022      | USA         |                   1323 |   114900.00 |
+|            141 | Euro+ Shopping Channel             | Freyre          | Diego            | (91) 555 94 44     | C/ Moralzarzal, 86            | NULL                     | Madrid        | NULL          | 28034      | Spain       |                   1370 |   227600.00 |
+|            145 | Danish Wholesale Imports           | Petersen        | Jytte            | 31 12 3555         | Vinbæltet 34                  | NULL                     | Kobenhavn     | NULL          | 1734       | Denmark     |                   1401 |    83400.00 |
+|            146 | Saveley & Henriot, Co.             | Saveley         | Mary             | 78.32.5555         | 2, rue du Commerce            | NULL                     | Lyon          | NULL          | 69004      | France      |                   1337 |   123900.00 |
+|            148 | Dragon Souveniers, Ltd.            | Natividad       | Eric             | +65 221 7555       | Bronz Sok.                    | Bronz Apt. 3/6 Tesvikiye | Singapore     | NULL          | 079903     | Singapore   |                   1621 |   103800.00 |
+|            151 | Muscle Machine Inc                 | Young           | Jeff             | 2125557413         | 4092 Furth Circle             | Suite 400                | NYC           | NY            | 10022      | USA         |                   1286 |   138500.00 |
+|            157 | Diecast Classics Inc.              | Leong           | Kelvin           | 2155551555         | 7586 Pompton St.              | NULL                     | Allentown     | PA            | 70267      | USA         |                   1216 |   100600.00 |
+|            161 | Technics Stores Inc.               | Hashimoto       | Juri             | 6505556809         | 9408 Furth Circle             | NULL                     | Burlingame    | CA            | 94217      | USA         |                   1165 |    84600.00 |
+|            166 | Handji Gifts& Co                   | Victorino       | Wendy            | +65 224 1555       | 106 Linden Road Sandown       | 2nd Floor                | Singapore     | NULL          | 069045     | Singapore   |                   1612 |    97900.00 |
+|            167 | Herkku Gifts                       | Oeztan          | Veysel           | +47 2267 3215      | Brehmen St. 121               | PR 334 Sentrum           | Bergen        | NULL          | N 5804     | Norway      |                   1504 |    96800.00 |
+|            171 | Daedalus Designs Imports           | Rancé           | Martine          | 20.16.1555         | 184, chaussée de Tournai      | NULL                     | Lille         | NULL          | 59000      | France      |                   1370 |    82900.00 |
+|            172 | La Corne D'abondance, Co.          | Bertrand        | Marie            | (1) 42.34.2555     | 265, boulevard Charonne       | NULL                     | Paris         | NULL          | 75012      | France      |                   1337 |    84300.00 |
+|            175 | Gift Depot Inc.                    | King            | Julie            | 2035552570         | 25593 South Bay Ln.           | NULL                     | Bridgewater   | CT            | 97562      | USA         |                   1323 |    84300.00 |
+|            177 | Osaka Souveniers Co.               | Kentary         | Mory             | +81 06 6342 5555   | 1-6-20 Dojima                 | NULL                     | Kita-ku       | Osaka         |  530-0003  | Japan       |                   1621 |    81200.00 |
+|            181 | Vitachrome Inc.                    | Frick           | Michael          | 2125551500         | 2678 Kingston Rd.             | Suite 101                | NYC           | NY            | 10022      | USA         |                   1286 |    76400.00 |
+|            186 | Toys of Finland, Co.               | Karttunen       | Matti            | 90-224 8555        | Keskuskatu 45                 | NULL                     | Helsinki      | NULL          | 21240      | Finland     |                   1501 |    96500.00 |
+|            187 | AV Stores, Co.                     | Ashworth        | Rachel           | (171) 555-1555     | Fauntleroy Circus             | NULL                     | Manchester    | NULL          | EC2 5NT    | UK          |                   1501 |   136800.00 |
+|            189 | Clover Collections, Co.            | Cassidy         | Dean             | +353 1862 1555     | 25 Maiden Lane                | Floor No. 4              | Dublin        | NULL          | 2          | Ireland     |                   1504 |    69400.00 |
+|            201 | UK Collectables, Ltd.              | Devon           | Elizabeth        | (171) 555-2282     | 12, Berkeley Gardens Blvd     | NULL                     | Liverpool     | NULL          | WX1 6LT    | UK          |                   1501 |    92700.00 |
+|            202 | Canadian Gift Exchange Network     | Tamuri          | Yoshi            | (604) 555-3392     | 1900 Oak St.                  | NULL                     | Vancouver     | BC            | V3F 2K1    | Canada      |                   1323 |    90300.00 |
+|            204 | Online Mini Collectables           | Barajas         | Miguel           | 6175557555         | 7635 Spinnaker Dr.            | NULL                     | Brickhaven    | MA            | 58339      | USA         |                   1188 |    68700.00 |
+|            205 | Toys4GrownUps.com                  | Young           | Julie            | 6265557265         | 78934 Hillside Dr.            | NULL                     | Pasadena      | CA            | 90003      | USA         |                   1166 |    90700.00 |
+|            227 | Heintze Collectables               | Ibsen           | Palle            | 86 21 3555         | Smagsloget 45                 | NULL                     | Århus         | NULL          | 8200       | Denmark     |                   1401 |   120800.00 |
+|            239 | Collectable Mini Designs Co.       | Thompson        | Valarie          | 7605558146         | 361 Furth Circle              | NULL                     | San Diego     | CA            | 91217      | USA         |                   1166 |   105000.00 |
+|            240 | giftsbymail.co.uk                  | Bennett         | Helen            | (198) 555-8888     | Garden House                  | Crowther Way 23          | Cowes         | Isle of Wight | PO31 7PJ   | UK          |                   1501 |    93900.00 |
+|            249 | Amica Models & Co.                 | Accorti         | Paolo            | 011-4988555        | Via Monte Bianco 34           | NULL                     | Torino        | NULL          | 10100      | Italy       |                   1401 |   113000.00 |
+|            250 | Lyon Souveniers                    | Da Silva        | Daniel           | +33 1 46 62 7555   | 27 rue du Colonel Pierre Avia | NULL                     | Paris         | NULL          | 75508      | France      |                   1337 |    68100.00 |
+|            256 | Auto Associés & Cie.               | Tonini          | Daniel           | 30.59.8555         | 67, avenue de l'Europe        | NULL                     | Versailles    | NULL          | 78000      | France      |                   1370 |    77900.00 |
+|            259 | Toms Spezialitäten, Ltd            | Pfalzheim       | Henriette        | 0221-5554327       | Mehrheimerstr. 369            | NULL                     | Köln          | NULL          | 50739      | Germany     |                   1504 |   120400.00 |
+|            260 | Royal Canadian Collectables, Ltd.  | Lincoln         | Elizabeth        | (604) 555-4555     | 23 Tsawassen Blvd.            | NULL                     | Tsawassen     | BC            | T2F 8M4    | Canada      |                   1323 |    89600.00 |
+|            276 | Anna's Decorations, Ltd            | O'Hara          | Anna             | 02 9936 8555       | 201 Miller Street             | Level 15                 | North Sydney  | NSW           | 2060       | Australia   |                   1611 |   107800.00 |
+|            278 | Rovelli Gifts                      | Rovelli         | Giovanni         | 035-640555         | Via Ludovico il Moro 22       | NULL                     | Bergamo       | NULL          | 24100      | Italy       |                   1401 |   119600.00 |
+|            282 | Souveniers And Things Co.          | Huxley          | Adrian           | +61 2 9495 8555    | Monitor Money Building        | 815 Pacific Hwy          | Chatswood     | NSW           | 2067       | Australia   |                   1611 |    93300.00 |
+|            286 | Marta's Replicas Co.               | Hernandez       | Marta            | 6175558555         | 39323 Spinnaker Dr.           | NULL                     | Cambridge     | MA            | 51247      | USA         |                   1216 |   123700.00 |
+|            298 | Vida Sport, Ltd                    | Holz            | Mihael           | 0897-034555        | Grenzacherweg 237             | NULL                     | Genève        | NULL          | 1203       | Switzerland |                   1702 |   141300.00 |
+|            299 | Norway Gifts By Mail, Co.          | Klaeboe         | Jan              | +47 2212 1555      | Drammensveien 126A            | PB 211 Sentrum           | Oslo          | NULL          | N 0106     | Norway      |                   1504 |    95100.00 |
+|            311 | Oulu Toy Supplies, Inc.            | Koskitalo       | Pirkko           | 981-443655         | Torikatu 38                   | NULL                     | Oulu          | NULL          | 90110      | Finland     |                   1501 |    90500.00 |
+|            314 | Petit Auto                         | Dewey           | Catherine        | (02) 5554 67       | Rue Joseph-Bens 532           | NULL                     | Bruxelles     | NULL          | B-1180     | Belgium     |                   1401 |    79900.00 |
+|            319 | Mini Classics                      | Frick           | Steve            | 9145554562         | 3758 North Pendale Street     | NULL                     | White Plains  | NY            | 24067      | USA         |                   1323 |   102700.00 |
+|            320 | Mini Creations Ltd.                | Huang           | Wing             | 5085559555         | 4575 Hillside Dr.             | NULL                     | New Bedford   | MA            | 50553      | USA         |                   1188 |    94500.00 |
+|            321 | Corporate Gift Ideas Co.           | Brown           | Julie            | 6505551386         | 7734 Strong St.               | NULL                     | San Francisco | CA            | 94217      | USA         |                   1165 |   105000.00 |
+|            323 | Down Under Souveniers, Inc         | Graham          | Mike             | +64 9 312 5555     | 162-164 Grafton Road          | Level 2                  | Auckland      | NULL          | NULL       | New Zealand |                   1612 |    88000.00 |
+|            324 | Stylish Desk Decors, Co.           | Brown           | Ann              | (171) 555-0297     | 35 King George                | NULL                     | London        | NULL          | WX3 6FW    | UK          |                   1501 |    77000.00 |
+|            334 | Suominen Souveniers                | Suominen        | Kalle            | +358 9 8045 555    | Software Engineering Center   | SEC Oy                   | Espoo         | NULL          | FIN-02271  | Finland     |                   1501 |    98800.00 |
+|            339 | Classic Gift Ideas, Inc            | Cervantes       | Francisca        | 2155554695         | 782 First Street              | NULL                     | Philadelphia  | PA            | 71270      | USA         |                   1188 |    81100.00 |
+|            353 | Reims Collectables                 | Henriot         | Paul             | 26.47.1555         | 59 rue de l'Abbaye            | NULL                     | Reims         | NULL          | 51100      | France      |                   1337 |    81100.00 |
+|            357 | GiftsForHim.com                    | MacKinlay       | Wales            | 64-9-3763555       | 199 Great North Road          | NULL                     | Auckland      | NULL          | NULL       | New Zealand |                   1612 |    77700.00 |
+|            363 | Online Diecast Creations Co.       | Young           | Dorothy          | 6035558647         | 2304 Long Airport Avenue      | NULL                     | Nashua        | NH            | 62005      | USA         |                   1216 |   114200.00 |
+|            379 | Collectables For Less Inc.         | Nelson          | Allen            | 6175558555         | 7825 Douglas Av.              | NULL                     | Brickhaven    | MA            | 58339      | USA         |                   1188 |    70700.00 |
+|            382 | Salzburg Collectables              | Pipps           | Georg            | 6562-9555          | Geislweg 14                   | NULL                     | Salzburg      | NULL          | 5020       | Austria     |                   1401 |    71700.00 |
+|            385 | Cruz & Sons Co.                    | Cruz            | Arnold           | +63 2 555 3587     | 15 McCallum Street            | NatWest Center #13-03    | Makati City   | NULL          | 1227 MM    | Philippines |                   1621 |    81500.00 |
+|            386 | L'ordine Souveniers                | Moroni          | Maurizio         | 0522-556555        | Strada Provinciale 124        | NULL                     | Reggio Emilia | NULL          | 42100      | Italy       |                   1401 |   121400.00 |
+|            398 | Tokyo Collectables, Ltd            | Shimamura       | Akiko            | +81 3 3584 0555    | 2-2-8 Roppongi                | NULL                     | Minato-ku     | Tokyo         | 106-0032   | Japan       |                   1621 |    94400.00 |
+|            406 | Auto Canal+ Petit                  | Perrier         | Dominique        | (1) 47.55.6555     | 25, rue Lauriston             | NULL                     | Paris         | NULL          | 75016      | France      |                   1337 |    95000.00 |
+|            412 | Extreme Desk Decorations, Ltd      | McRoy           | Sarah            | 04 499 9555        | 101 Lambton Quay              | Level 11                 | Wellington    | NULL          | NULL       | New Zealand |                   1612 |    86800.00 |
+|            415 | Bavarian Collectables Imports, Co. | Donnermeyer     | Michael          |  +49 89 61 08 9555 | Hansastr. 15                  | NULL                     | Munich        | NULL          | 80686      | Germany     |                   1504 |    77000.00 |
+|            448 | Scandinavian Gift Ideas            | Larsson         | Martha           | 0695-34 6555       | Åkergatan 24                  | NULL                     | Bräcke        | NULL          | S-844 67   | Sweden      |                   1504 |   116400.00 |
+|            450 | The Sharp Gifts Warehouse          | Frick           | Sue              | 4085553659         | 3086 Ingle Ln.                | NULL                     | San Jose      | CA            | 94217      | USA         |                   1165 |    77600.00 |
+|            455 | Super Scale Inc.                   | Murphy          | Leslie           | 2035559545         | 567 North Pendale Street      | NULL                     | New Haven     | CT            | 97823      | USA         |                   1286 |    95400.00 |
+|            458 | Corrida Auto Replicas, Ltd         | Sommer          | Martín           | (91) 555 22 82     | C/ Araquil, 67                | NULL                     | Madrid        | NULL          | 28023      | Spain       |                   1702 |   104600.00 |
+|            462 | FunGiftIdeas.com                   | Benitez         | Violeta          | 5085552555         | 1785 First Street             | NULL                     | New Bedford   | MA            | 50553      | USA         |                   1216 |    85800.00 |
+|            486 | Motor Mint Distributors Inc.       | Salazar         | Rosa             | 2155559857         | 11328 Douglas Av.             | NULL                     | Philadelphia  | PA            | 71270      | USA         |                   1323 |    72600.00 |
+|            495 | Diecast Collectables               | Franco          | Valarie          | 6175552555         | 6251 Ingle Ln.                | NULL                     | Boston        | MA            | 51003      | USA         |                   1188 |    85100.00 |
+|            496 | Kelly's Gift Shop                  | Snowden         | Tony             | +64 9 5555500      | Arenales 1938 3'A'            | NULL                     | Auckland      | NULL          | NULL       | New Zealand |                   1612 |   110000.00 |
++----------------+------------------------------------+-----------------+------------------+--------------------+-------------------------------+--------------------------+---------------+---------------+------------+-------------+------------------------+-------------+
+69 rows in set (0.11 sec)
+
+mysql> SELECT customerName, creditLimit, Rank()OVER (ORDER BY creditLimit DESC) AS rankPosition FROM customers;
++------------------------------------+-------------+--------------+
+| customerName                       | creditLimit | rankPosition |
++------------------------------------+-------------+--------------+
+| Euro+ Shopping Channel             |   227600.00 |            1 |
+| Mini Gifts Distributors Ltd.       |   210500.00 |            2 |
+| Vida Sport, Ltd                    |   141300.00 |            3 |
+| Muscle Machine Inc                 |   138500.00 |            4 |
+| AV Stores, Co.                     |   136800.00 |            5 |
+| Saveley & Henriot, Co.             |   123900.00 |            6 |
+| Marta's Replicas Co.               |   123700.00 |            7 |
+| L'ordine Souveniers                |   121400.00 |            8 |
+| Heintze Collectables               |   120800.00 |            9 |
+| Toms Spezialitäten, Ltd            |   120400.00 |           10 |
+| Rovelli Gifts                      |   119600.00 |           11 |
+| La Rochelle Gifts                  |   118200.00 |           12 |
+| Australian Collectors, Co.         |   117300.00 |           13 |
+| Scandinavian Gift Ideas            |   116400.00 |           14 |
+| Land of Toys Inc.                  |   114900.00 |           15 |
+| Online Diecast Creations Co.       |   114200.00 |           16 |
+| Amica Models & Co.                 |   113000.00 |           17 |
+| Kelly's Gift Shop                  |   110000.00 |           18 |
+| Anna's Decorations, Ltd            |   107800.00 |           19 |
+| Collectable Mini Designs Co.       |   105000.00 |           20 |
+| Corporate Gift Ideas Co.           |   105000.00 |           20 |
+| Corrida Auto Replicas, Ltd         |   104600.00 |           22 |
+| Dragon Souveniers, Ltd.            |   103800.00 |           23 |
+| Mini Classics                      |   102700.00 |           24 |
+| Diecast Classics Inc.              |   100600.00 |           25 |
+| Suominen Souveniers                |    98800.00 |           26 |
+| Handji Gifts& Co                   |    97900.00 |           27 |
+| Herkku Gifts                       |    96800.00 |           28 |
+| Toys of Finland, Co.               |    96500.00 |           29 |
+| Super Scale Inc.                   |    95400.00 |           30 |
+| Norway Gifts By Mail, Co.          |    95100.00 |           31 |
+| Auto Canal+ Petit                  |    95000.00 |           32 |
+| Mini Creations Ltd.                |    94500.00 |           33 |
+| Tokyo Collectables, Ltd            |    94400.00 |           34 |
+| giftsbymail.co.uk                  |    93900.00 |           35 |
+| Souveniers And Things Co.          |    93300.00 |           36 |
+| UK Collectables, Ltd.              |    92700.00 |           37 |
+| Toys4GrownUps.com                  |    90700.00 |           38 |
+| Oulu Toy Supplies, Inc.            |    90500.00 |           39 |
+| Canadian Gift Exchange Network     |    90300.00 |           40 |
+| Royal Canadian Collectables, Ltd.  |    89600.00 |           41 |
+| Down Under Souveniers, Inc         |    88000.00 |           42 |
+| Extreme Desk Decorations, Ltd      |    86800.00 |           43 |
+| FunGiftIdeas.com                   |    85800.00 |           44 |
+| Diecast Collectables               |    85100.00 |           45 |
+| Technics Stores Inc.               |    84600.00 |           46 |
+| La Corne D'abondance, Co.          |    84300.00 |           47 |
+| Gift Depot Inc.                    |    84300.00 |           47 |
+| Danish Wholesale Imports           |    83400.00 |           49 |
+| Daedalus Designs Imports           |    82900.00 |           50 |
+| Baane Mini Imports                 |    81700.00 |           51 |
+| Cruz & Sons Co.                    |    81500.00 |           52 |
+| Osaka Souveniers Co.               |    81200.00 |           53 |
+| Classic Gift Ideas, Inc            |    81100.00 |           54 |
+| Reims Collectables                 |    81100.00 |           54 |
+| Petit Auto                         |    79900.00 |           56 |
+| Auto Associés & Cie.               |    77900.00 |           57 |
+| GiftsForHim.com                    |    77700.00 |           58 |
+| The Sharp Gifts Warehouse          |    77600.00 |           59 |
+| Stylish Desk Decors, Co.           |    77000.00 |           60 |
+| Bavarian Collectables Imports, Co. |    77000.00 |           60 |
+| Vitachrome Inc.                    |    76400.00 |           62 |
+| Motor Mint Distributors Inc.       |    72600.00 |           63 |
+| Signal Gift Stores                 |    71800.00 |           64 |
+| Salzburg Collectables              |    71700.00 |           65 |
+| Collectables For Less Inc.         |    70700.00 |           66 |
+| Clover Collections, Co.            |    69400.00 |           67 |
+| Online Mini Collectables           |    68700.00 |           68 |
+| Lyon Souveniers                    |    68100.00 |           69 |
+| Classic Legends Inc.               |    67500.00 |           70 |
+| Iberia Gift Imports, Corp.         |    65700.00 |           71 |
+| Marseille Mini Autos               |    65000.00 |           72 |
+| Mini Wheels Co.                    |    64600.00 |           73 |
+| Alpha Cognac                       |    61100.00 |           74 |
+| Enaco Distributors                 |    60300.00 |           75 |
+| Australian Collectables, Ltd       |    60300.00 |           75 |
+| Signal Collectibles Ltd.           |    60300.00 |           75 |
+| Blauer See Auto, Co.               |    59700.00 |           78 |
+| CAF Imports                        |    59600.00 |           79 |
+| King Kong Collectables, Co.        |    58600.00 |           80 |
+| Men 'R' US Retailers, Ltd.         |    57700.00 |           81 |
+| West Coast Collectables Co.        |    55400.00 |           82 |
+| Mini Caravy                        |    53800.00 |           83 |
+| Volvo Model Replicas, Co           |    53100.00 |           84 |
+| Australian Gift Network, Co        |    51600.00 |           85 |
+| Gift Ideas Corp.                   |    49700.00 |           86 |
+| Québec Home Shopping Network       |    48700.00 |           87 |
+| Mini Auto Werke                    |    45300.00 |           88 |
+| Cambridge Collectables Co.         |    43400.00 |           89 |
+| Double Decker Gift Stores, Ltd     |    43300.00 |           90 |
+| Tekni Collectables Inc.            |    43000.00 |           91 |
+| Gifts4AllAges.com                  |    41900.00 |           92 |
+| Microscale Inc.                    |    39800.00 |           93 |
+| Frau da Collezione                 |    34800.00 |           94 |
+| Royale Belge                       |    23500.00 |           95 |
+| Auto-Moto Classics Inc.            |    23000.00 |           96 |
+| Atelier graphique                  |    21000.00 |           97 |
+| Boards & Toys Co.                  |    11000.00 |           98 |
+| Havel & Zbyszek Co                 |        0.00 |           99 |
+| American Souvenirs Inc             |        0.00 |           99 |
+| Porto Imports Co.                  |        0.00 |           99 |
+| Asian Shopping Network, Co         |        0.00 |           99 |
+| Natürlich Autos                    |        0.00 |           99 |
+| ANG Resellers                      |        0.00 |           99 |
+| Messner Shopping Network           |        0.00 |           99 |
+| Franken Gifts, Co                  |        0.00 |           99 |
+| BG&E Collectables                  |        0.00 |           99 |
+| Schuyler Imports                   |        0.00 |           99 |
+| Der Hund Imports                   |        0.00 |           99 |
+| Cramer Spezialitäten, Ltd          |        0.00 |           99 |
+| Asian Treasures, Inc.              |        0.00 |           99 |
+| SAR Distributors, Co               |        0.00 |           99 |
+| Kommission Auto                    |        0.00 |           99 |
+| Lisboa Souveniers, Inc             |        0.00 |           99 |
+| Precious Collectables              |        0.00 |           99 |
+| Stuttgart Collectable Exchange     |        0.00 |           99 |
+| Feuer Online Stores, Inc           |        0.00 |           99 |
+| Warburg Exchange                   |        0.00 |           99 |
+| Anton Designs, Ltd.                |        0.00 |           99 |
+| Mit Vergnügen & Co.                |        0.00 |           99 |
+| Kremlin Collectables, Co.          |        0.00 |           99 |
+| Raanan Stores, Inc                 |        0.00 |           99 |
++------------------------------------+-------------+--------------+
+122 rows in set (0.08 sec)
+
+mysql> SELECT * FROM customers WHERE creditLimit > (SELECT avgLimit FROM avg_limit);
+ERROR 1146 (42S02): Table 'classicmodels.avg_limit' doesn't exist
+mysql> with avg_limit AS ( Select AVG(creditLimit) AS avgLimit FROM customers) SELECT * FROM customers WHERE creditLimit > (SELECT avgLimit FROM avg_limit);
++----------------+------------------------------------+-----------------+------------------+--------------------+-------------------------------+--------------------------+---------------+---------------+------------+-------------+------------------------+-------------+
+| customerNumber | customerName                       | contactLastName | contactFirstName | phone              | addressLine1                  | addressLine2             | city          | state         | postalCode | country     | salesRepEmployeeNumber | creditLimit |
++----------------+------------------------------------+-----------------+------------------+--------------------+-------------------------------+--------------------------+---------------+---------------+------------+-------------+------------------------+-------------+
+|            112 | Signal Gift Stores                 | King            | Jean             | 7025551838         | 8489 Strong St.               | NULL                     | Las Vegas     | NV            | 83030      | USA         |                   1166 |    71800.00 |
+|            114 | Australian Collectors, Co.         | Ferguson        | Peter            | 03 9520 4555       | 636 St Kilda Road             | Level 3                  | Melbourne     | Victoria      | 3004       | Australia   |                   1611 |   117300.00 |
+|            119 | La Rochelle Gifts                  | Labrune         | Janine           | 40.67.8555         | 67, rue des Cinquante Otages  | NULL                     | Nantes        | NULL          | 44000      | France      |                   1370 |   118200.00 |
+|            121 | Baane Mini Imports                 | Bergulfsen      | Jonas            | 07-98 9555         | Erling Skakkes gate 78        | NULL                     | Stavern       | NULL          | 4110       | Norway      |                   1504 |    81700.00 |
+|            124 | Mini Gifts Distributors Ltd.       | Nelson          | Susan            | 4155551450         | 5677 Strong St.               | NULL                     | San Rafael    | CA            | 97562      | USA         |                   1165 |   210500.00 |
+|            131 | Land of Toys Inc.                  | Lee             | Kwai             | 2125557818         | 897 Long Airport Avenue       | NULL                     | NYC           | NY            | 10022      | USA         |                   1323 |   114900.00 |
+|            141 | Euro+ Shopping Channel             | Freyre          | Diego            | (91) 555 94 44     | C/ Moralzarzal, 86            | NULL                     | Madrid        | NULL          | 28034      | Spain       |                   1370 |   227600.00 |
+|            145 | Danish Wholesale Imports           | Petersen        | Jytte            | 31 12 3555         | Vinbæltet 34                  | NULL                     | Kobenhavn     | NULL          | 1734       | Denmark     |                   1401 |    83400.00 |
+|            146 | Saveley & Henriot, Co.             | Saveley         | Mary             | 78.32.5555         | 2, rue du Commerce            | NULL                     | Lyon          | NULL          | 69004      | France      |                   1337 |   123900.00 |
+|            148 | Dragon Souveniers, Ltd.            | Natividad       | Eric             | +65 221 7555       | Bronz Sok.                    | Bronz Apt. 3/6 Tesvikiye | Singapore     | NULL          | 079903     | Singapore   |                   1621 |   103800.00 |
+|            151 | Muscle Machine Inc                 | Young           | Jeff             | 2125557413         | 4092 Furth Circle             | Suite 400                | NYC           | NY            | 10022      | USA         |                   1286 |   138500.00 |
+|            157 | Diecast Classics Inc.              | Leong           | Kelvin           | 2155551555         | 7586 Pompton St.              | NULL                     | Allentown     | PA            | 70267      | USA         |                   1216 |   100600.00 |
+|            161 | Technics Stores Inc.               | Hashimoto       | Juri             | 6505556809         | 9408 Furth Circle             | NULL                     | Burlingame    | CA            | 94217      | USA         |                   1165 |    84600.00 |
+|            166 | Handji Gifts& Co                   | Victorino       | Wendy            | +65 224 1555       | 106 Linden Road Sandown       | 2nd Floor                | Singapore     | NULL          | 069045     | Singapore   |                   1612 |    97900.00 |
+|            167 | Herkku Gifts                       | Oeztan          | Veysel           | +47 2267 3215      | Brehmen St. 121               | PR 334 Sentrum           | Bergen        | NULL          | N 5804     | Norway      |                   1504 |    96800.00 |
+|            171 | Daedalus Designs Imports           | Rancé           | Martine          | 20.16.1555         | 184, chaussée de Tournai      | NULL                     | Lille         | NULL          | 59000      | France      |                   1370 |    82900.00 |
+|            172 | La Corne D'abondance, Co.          | Bertrand        | Marie            | (1) 42.34.2555     | 265, boulevard Charonne       | NULL                     | Paris         | NULL          | 75012      | France      |                   1337 |    84300.00 |
+|            175 | Gift Depot Inc.                    | King            | Julie            | 2035552570         | 25593 South Bay Ln.           | NULL                     | Bridgewater   | CT            | 97562      | USA         |                   1323 |    84300.00 |
+|            177 | Osaka Souveniers Co.               | Kentary         | Mory             | +81 06 6342 5555   | 1-6-20 Dojima                 | NULL                     | Kita-ku       | Osaka         |  530-0003  | Japan       |                   1621 |    81200.00 |
+|            181 | Vitachrome Inc.                    | Frick           | Michael          | 2125551500         | 2678 Kingston Rd.             | Suite 101                | NYC           | NY            | 10022      | USA         |                   1286 |    76400.00 |
+|            186 | Toys of Finland, Co.               | Karttunen       | Matti            | 90-224 8555        | Keskuskatu 45                 | NULL                     | Helsinki      | NULL          | 21240      | Finland     |                   1501 |    96500.00 |
+|            187 | AV Stores, Co.                     | Ashworth        | Rachel           | (171) 555-1555     | Fauntleroy Circus             | NULL                     | Manchester    | NULL          | EC2 5NT    | UK          |                   1501 |   136800.00 |
+|            189 | Clover Collections, Co.            | Cassidy         | Dean             | +353 1862 1555     | 25 Maiden Lane                | Floor No. 4              | Dublin        | NULL          | 2          | Ireland     |                   1504 |    69400.00 |
+|            201 | UK Collectables, Ltd.              | Devon           | Elizabeth        | (171) 555-2282     | 12, Berkeley Gardens Blvd     | NULL                     | Liverpool     | NULL          | WX1 6LT    | UK          |                   1501 |    92700.00 |
+|            202 | Canadian Gift Exchange Network     | Tamuri          | Yoshi            | (604) 555-3392     | 1900 Oak St.                  | NULL                     | Vancouver     | BC            | V3F 2K1    | Canada      |                   1323 |    90300.00 |
+|            204 | Online Mini Collectables           | Barajas         | Miguel           | 6175557555         | 7635 Spinnaker Dr.            | NULL                     | Brickhaven    | MA            | 58339      | USA         |                   1188 |    68700.00 |
+|            205 | Toys4GrownUps.com                  | Young           | Julie            | 6265557265         | 78934 Hillside Dr.            | NULL                     | Pasadena      | CA            | 90003      | USA         |                   1166 |    90700.00 |
+|            227 | Heintze Collectables               | Ibsen           | Palle            | 86 21 3555         | Smagsloget 45                 | NULL                     | Århus         | NULL          | 8200       | Denmark     |                   1401 |   120800.00 |
+|            239 | Collectable Mini Designs Co.       | Thompson        | Valarie          | 7605558146         | 361 Furth Circle              | NULL                     | San Diego     | CA            | 91217      | USA         |                   1166 |   105000.00 |
+|            240 | giftsbymail.co.uk                  | Bennett         | Helen            | (198) 555-8888     | Garden House                  | Crowther Way 23          | Cowes         | Isle of Wight | PO31 7PJ   | UK          |                   1501 |    93900.00 |
+|            249 | Amica Models & Co.                 | Accorti         | Paolo            | 011-4988555        | Via Monte Bianco 34           | NULL                     | Torino        | NULL          | 10100      | Italy       |                   1401 |   113000.00 |
+|            250 | Lyon Souveniers                    | Da Silva        | Daniel           | +33 1 46 62 7555   | 27 rue du Colonel Pierre Avia | NULL                     | Paris         | NULL          | 75508      | France      |                   1337 |    68100.00 |
+|            256 | Auto Associés & Cie.               | Tonini          | Daniel           | 30.59.8555         | 67, avenue de l'Europe        | NULL                     | Versailles    | NULL          | 78000      | France      |                   1370 |    77900.00 |
+|            259 | Toms Spezialitäten, Ltd            | Pfalzheim       | Henriette        | 0221-5554327       | Mehrheimerstr. 369            | NULL                     | Köln          | NULL          | 50739      | Germany     |                   1504 |   120400.00 |
+|            260 | Royal Canadian Collectables, Ltd.  | Lincoln         | Elizabeth        | (604) 555-4555     | 23 Tsawassen Blvd.            | NULL                     | Tsawassen     | BC            | T2F 8M4    | Canada      |                   1323 |    89600.00 |
+|            276 | Anna's Decorations, Ltd            | O'Hara          | Anna             | 02 9936 8555       | 201 Miller Street             | Level 15                 | North Sydney  | NSW           | 2060       | Australia   |                   1611 |   107800.00 |
+|            278 | Rovelli Gifts                      | Rovelli         | Giovanni         | 035-640555         | Via Ludovico il Moro 22       | NULL                     | Bergamo       | NULL          | 24100      | Italy       |                   1401 |   119600.00 |
+|            282 | Souveniers And Things Co.          | Huxley          | Adrian           | +61 2 9495 8555    | Monitor Money Building        | 815 Pacific Hwy          | Chatswood     | NSW           | 2067       | Australia   |                   1611 |    93300.00 |
+|            286 | Marta's Replicas Co.               | Hernandez       | Marta            | 6175558555         | 39323 Spinnaker Dr.           | NULL                     | Cambridge     | MA            | 51247      | USA         |                   1216 |   123700.00 |
+|            298 | Vida Sport, Ltd                    | Holz            | Mihael           | 0897-034555        | Grenzacherweg 237             | NULL                     | Genève        | NULL          | 1203       | Switzerland |                   1702 |   141300.00 |
+|            299 | Norway Gifts By Mail, Co.          | Klaeboe         | Jan              | +47 2212 1555      | Drammensveien 126A            | PB 211 Sentrum           | Oslo          | NULL          | N 0106     | Norway      |                   1504 |    95100.00 |
+|            311 | Oulu Toy Supplies, Inc.            | Koskitalo       | Pirkko           | 981-443655         | Torikatu 38                   | NULL                     | Oulu          | NULL          | 90110      | Finland     |                   1501 |    90500.00 |
+|            314 | Petit Auto                         | Dewey           | Catherine        | (02) 5554 67       | Rue Joseph-Bens 532           | NULL                     | Bruxelles     | NULL          | B-1180     | Belgium     |                   1401 |    79900.00 |
+|            319 | Mini Classics                      | Frick           | Steve            | 9145554562         | 3758 North Pendale Street     | NULL                     | White Plains  | NY            | 24067      | USA         |                   1323 |   102700.00 |
+|            320 | Mini Creations Ltd.                | Huang           | Wing             | 5085559555         | 4575 Hillside Dr.             | NULL                     | New Bedford   | MA            | 50553      | USA         |                   1188 |    94500.00 |
+|            321 | Corporate Gift Ideas Co.           | Brown           | Julie            | 6505551386         | 7734 Strong St.               | NULL                     | San Francisco | CA            | 94217      | USA         |                   1165 |   105000.00 |
+|            323 | Down Under Souveniers, Inc         | Graham          | Mike             | +64 9 312 5555     | 162-164 Grafton Road          | Level 2                  | Auckland      | NULL          | NULL       | New Zealand |                   1612 |    88000.00 |
+|            324 | Stylish Desk Decors, Co.           | Brown           | Ann              | (171) 555-0297     | 35 King George                | NULL                     | London        | NULL          | WX3 6FW    | UK          |                   1501 |    77000.00 |
+|            334 | Suominen Souveniers                | Suominen        | Kalle            | +358 9 8045 555    | Software Engineering Center   | SEC Oy                   | Espoo         | NULL          | FIN-02271  | Finland     |                   1501 |    98800.00 |
+|            339 | Classic Gift Ideas, Inc            | Cervantes       | Francisca        | 2155554695         | 782 First Street              | NULL                     | Philadelphia  | PA            | 71270      | USA         |                   1188 |    81100.00 |
+|            353 | Reims Collectables                 | Henriot         | Paul             | 26.47.1555         | 59 rue de l'Abbaye            | NULL                     | Reims         | NULL          | 51100      | France      |                   1337 |    81100.00 |
+|            357 | GiftsForHim.com                    | MacKinlay       | Wales            | 64-9-3763555       | 199 Great North Road          | NULL                     | Auckland      | NULL          | NULL       | New Zealand |                   1612 |    77700.00 |
+|            363 | Online Diecast Creations Co.       | Young           | Dorothy          | 6035558647         | 2304 Long Airport Avenue      | NULL                     | Nashua        | NH            | 62005      | USA         |                   1216 |   114200.00 |
+|            379 | Collectables For Less Inc.         | Nelson          | Allen            | 6175558555         | 7825 Douglas Av.              | NULL                     | Brickhaven    | MA            | 58339      | USA         |                   1188 |    70700.00 |
+|            382 | Salzburg Collectables              | Pipps           | Georg            | 6562-9555          | Geislweg 14                   | NULL                     | Salzburg      | NULL          | 5020       | Austria     |                   1401 |    71700.00 |
+|            385 | Cruz & Sons Co.                    | Cruz            | Arnold           | +63 2 555 3587     | 15 McCallum Street            | NatWest Center #13-03    | Makati City   | NULL          | 1227 MM    | Philippines |                   1621 |    81500.00 |
+|            386 | L'ordine Souveniers                | Moroni          | Maurizio         | 0522-556555        | Strada Provinciale 124        | NULL                     | Reggio Emilia | NULL          | 42100      | Italy       |                   1401 |   121400.00 |
+|            398 | Tokyo Collectables, Ltd            | Shimamura       | Akiko            | +81 3 3584 0555    | 2-2-8 Roppongi                | NULL                     | Minato-ku     | Tokyo         | 106-0032   | Japan       |                   1621 |    94400.00 |
+|            406 | Auto Canal+ Petit                  | Perrier         | Dominique        | (1) 47.55.6555     | 25, rue Lauriston             | NULL                     | Paris         | NULL          | 75016      | France      |                   1337 |    95000.00 |
+|            412 | Extreme Desk Decorations, Ltd      | McRoy           | Sarah            | 04 499 9555        | 101 Lambton Quay              | Level 11                 | Wellington    | NULL          | NULL       | New Zealand |                   1612 |    86800.00 |
+|            415 | Bavarian Collectables Imports, Co. | Donnermeyer     | Michael          |  +49 89 61 08 9555 | Hansastr. 15                  | NULL                     | Munich        | NULL          | 80686      | Germany     |                   1504 |    77000.00 |
+|            448 | Scandinavian Gift Ideas            | Larsson         | Martha           | 0695-34 6555       | Åkergatan 24                  | NULL                     | Bräcke        | NULL          | S-844 67   | Sweden      |                   1504 |   116400.00 |
+|            450 | The Sharp Gifts Warehouse          | Frick           | Sue              | 4085553659         | 3086 Ingle Ln.                | NULL                     | San Jose      | CA            | 94217      | USA         |                   1165 |    77600.00 |
+|            455 | Super Scale Inc.                   | Murphy          | Leslie           | 2035559545         | 567 North Pendale Street      | NULL                     | New Haven     | CT            | 97823      | USA         |                   1286 |    95400.00 |
+|            458 | Corrida Auto Replicas, Ltd         | Sommer          | Martín           | (91) 555 22 82     | C/ Araquil, 67                | NULL                     | Madrid        | NULL          | 28023      | Spain       |                   1702 |   104600.00 |
+|            462 | FunGiftIdeas.com                   | Benitez         | Violeta          | 5085552555         | 1785 First Street             | NULL                     | New Bedford   | MA            | 50553      | USA         |                   1216 |    85800.00 |
+|            486 | Motor Mint Distributors Inc.       | Salazar         | Rosa             | 2155559857         | 11328 Douglas Av.             | NULL                     | Philadelphia  | PA            | 71270      | USA         |                   1323 |    72600.00 |
+|            495 | Diecast Collectables               | Franco          | Valarie          | 6175552555         | 6251 Ingle Ln.                | NULL                     | Boston        | MA            | 51003      | USA         |                   1188 |    85100.00 |
+|            496 | Kelly's Gift Shop                  | Snowden         | Tony             | +64 9 5555500      | Arenales 1938 3'A'            | NULL                     | Auckland      | NULL          | NULL       | New Zealand |                   1612 |   110000.00 |
++----------------+------------------------------------+-----------------+------------------+--------------------+-------------------------------+--------------------------+---------------+---------------+------------+-------------+------------------------+-------------+
+69 rows in set (0.04 sec)
+
+mysql> SELECT officeCode, COUNT(*) AS totalEmployees FROM employees GROUP BY officeCode;
++------------+----------------+
+| officeCode | totalEmployees |
++------------+----------------+
+| 1          |              6 |
+| 2          |              2 |
+| 3          |              2 |
+| 4          |              5 |
+| 5          |              2 |
+| 6          |              4 |
+| 7          |              2 |
++------------+----------------+
+7 rows in set (0.07 sec)
+
+mysql> SELECT e.officeCode, COUNT(c.customerNumber) As totalCustomers FROM customers c join employees e ON c.salesRepEmployeeNumber = e.employeeNumber Group by e.officeCode;
++------------+----------------+
+| officeCode | totalCustomers |
++------------+----------------+
+| 1          |             12 |
+| 2          |             12 |
+| 3          |             15 |
+| 4          |             29 |
+| 7          |             17 |
+| 6          |             10 |
+| 5          |              5 |
++------------+----------------+
+7 rows in set (0.06 sec)
+
+mysql> SELECT o.officeCode, o.city, o.state,o.country, SUM(p.amount) AS totalPayments FROM payments p
+    -> JOIN customers c ON p.customerNumber = c.customerNumber
+    -> JOIN employees e ON c.salesRepEmployeeNumber = e.employeeNumber
+    -> JOIN offices o ON e.officeCode = o.officeCode
+    -> Group by o.officeCode;
++------------+---------------+------------+-----------+---------------+
+| officeCode | city          | state      | country   | totalPayments |
++------------+---------------+------------+-----------+---------------+
+| 1          | San Francisco | CA         | USA       |    1337439.58 |
+| 2          | Boston        | MA         | USA       |     835882.33 |
+| 3          | NYC           | NY         | USA       |    1072619.47 |
+| 4          | Paris         | NULL       | France    |    2819168.90 |
+| 7          | London        | NULL       | UK        |    1324325.90 |
+| 6          | Sydney        | NULL       | Australia |    1007292.98 |
+| 5          | Tokyo         | Chiyoda-Ku | Japan     |     457110.07 |
++------------+---------------+------------+-----------+---------------+
+7 rows in set (0.09 sec)
+
+mysql> SELECT
+    ->   o.officeName,
+    ->   o.state,
+    ->   o.country,
+    ->   SUM(p.amount) AS totalPayments
+    -> FROM payments p
+    -> JOIN customers c ON p.customerNumber = c.customerNumber
+    -> JOIN employees e ON c.salesRepEmployeeNumber = e.employeeNumber
+    -> JOIN offices o ON e.officeCode = o.officeCode
+    -> GROUP BY o.officeName, o.state, o.country;
+
+ERROR 1054 (42S22): Unknown column 'o.officeName' in 'field list'
+mysql>
+mysql> SELECT o.officeCode, o.city, o.country, SUM(od.quantityOrdered * od.priceEach) AS totalSales
+    -> FROM orderdetails od
+    -> JOIN orders 02 ON od.orderNumber = o2.orderNumber
+    -> JOIN customers c ON o2.customerNumber = c.customerNaumber
+    -> JOIN employees e ON c.salesRepEmployeeNumber = e.employeeNumber
+    -> JOIN offices o ON e.officeCode = o.officeCode
+    -> GROUP BY o.officeCode;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '02 ON od.orderNumber = o2.orderNumber
+JOIN customers c ON o2.customerNumber = c.' at line 3
+mysql> SELECT o.officeCode, o.city, o.country, SUM(od.quantityOrdered * od.priceEach) AS totalSales FROM orderdetails od JOIN orders o2 ON od.orderNumber = o2.orderNumber JOIN customers c ON o2.customerNumber = c.customerNaumber JOIN employees e ON c.salesRepEmployeeNumber = e.employeeNumber JOIN offices o ON e.officeCode = o.officeCode GROUP BY o.officeCode;
+ERROR 1054 (42S22): Unknown column 'c.customerNaumber' in 'on clause'
+mysql> SELECT o.officeCode, o.city, o.country, SUM(od.quantityOrdered * od.priceEach) AS totalSales FROM orderdetails od JOIN orders o2 ON od.orderNumber = o2.orderNumber JOIN customers c ON o2.customerNumber = c.customerNumber JOIN employees e ON c.salesRepEmployeeNumber = e.employeeNumber JOIN offices o ON e.officeCode = o.officeCode GROUP BY o.officeCode;
++------------+---------------+-----------+------------+
+| officeCode | city          | country   | totalSales |
++------------+---------------+-----------+------------+
+| 1          | San Francisco | USA       | 1429063.57 |
+| 2          | Boston        | USA       |  892538.62 |
+| 3          | NYC           | USA       | 1157589.72 |
+| 4          | Paris         | France    | 3083761.58 |
+| 7          | London        | UK        | 1436950.70 |
+| 6          | Sydney        | Australia | 1147176.35 |
+| 5          | Tokyo         | Japan     |  457110.07 |
++------------+---------------+-----------+------------+
+7 rows in set (0.05 sec)
+
+mysql> SELECT
+    ->     ->   o.officeName,
+    ->     ->   o.state,
+    ->     ->   o.country,
+    ->     ->   SUM(p.amount) AS totalPayments
+    ->     -> FROM payments p
+    ->     -> JOIN customers c ON p.customerNumber = c.customerNumber
+    ->     -> JOIN employees e ON c.salesRepEmployeeNumber = e.employeeNumber
+    ->     -> JOIN offices o ON e.officeCode = o.officeCode
+    ->     -> GROUP BY o.officeName, o.state, o.country;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '->   o.officeName,
+    ->   o.state,
+    ->   o.country,
+    ->   SUM(p.amount) ' at line 2
+mysql>
+mysql> SELECT o.officeCode,o.state,o.country,
+    -> SUM(od.quantityOrdered * od.priceEach) - IF NULL(SUM(p.amount), 0) AS pendingAmount
+    -> FROM offices o
+    -> Join employees e ON o.officeCode = e.officeCode
+    -> Join customers c ON e.employeeNumber = c.salesRepEmployeeNumber
+    -> Join orders o2 ON c.customerNumber = o2.customerNumber
+    -> JOIN orderdetails od ON o2.orderNumber = od.orderNumber
+    -> LEFT JOIN payments p ON c.customerNumber = p.customerNumber
+    -> GROUP BY o.officeName, o.state, o.country;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'NULL(SUM(p.amount), 0) AS pendingAmount
+FROM offices o
+Join employees e ON o.of' at line 2
+mysql> SELECT o.officeCode,o.state,o.country, SUM(od.quantityOrdered * od.priceEach) - IFNULL(SUM(p.amount), 0) AS pendingAmount FROM offices o  Join employees e ON o.officeCode = e.officeCode Join customers c ON e.employeeNumber = c.salesRepEmployeeNumber Join orders o2 ON c.customerNumber = o2.customerNumber JOIN orderdetails od ON o2.orderNumber = od.orderNumber LEFT JOIN payments p ON c.customerNumber = p.customerNumber GROUP BY o.officeName, o.state, o.country;
+ERROR 1054 (42S22): Unknown column 'o.officeName' in 'group statement'
+mysql> SELECT
+    ->   o.officeCode,
+    ->   o.state,
+    ->   o.country,
+    ->   SUM(od.quantityOrdered * od.priceEach) - IFNULL(SUM(p.amount), 0) AS pendingAmount
+    -> FROM offices o
+    -> JOIN employees e ON o.officeCode = e.officeCode
+    -> JOIN customers c ON e.employeeNumber = c.salesRepEmployeeNumber
+    -> JOIN orders o2 ON c.customerNumber = o2.customerNumber
+    -> JOIN orderdetails od ON o2.orderNumber = od.orderNumber
+    -> LEFT JOIN payments p ON c.customerNumber = p.customerNumber
+    -> GROUP BY o.officeCode, o.state, o.country;
++------------+------------+-----------+---------------+
+| officeCode | state      | country   | pendingAmount |
++------------+------------+-----------+---------------+
+| 1          | CA         | USA       | -119651437.12 |
+| 2          | MA         | USA       |  -19533959.94 |
+| 3          | NY         | USA       |  -28008966.41 |
+| 4          | NULL       | France    | -231820580.94 |
+| 7          | NULL       | UK        |  -35774014.19 |
+| 6          | NULL       | Australia |  -38451087.11 |
+| 5          | Chiyoda-Ku | Japan     |  -12865639.32 |
++------------+------------+-----------+---------------+
+7 rows in set (0.07 sec)
+
+mysql> SELECT o.officeCode, o.city, o.country,
+    ->        SUM(od.quantityOrdered * od.priceEach) -
+    ->        IFNULL(SUM(p.amount), 0) AS pendingAmount
+    -> FROM customers c
+    -> JOIN employees e ON c.salesRepEmployeeNumber = e.employeeNumber
+    -> JOIN offices o ON e.officeCode = o.officeCode
+    -> JOIN orders o2 ON c.customerNumber = o2.customerNumber
+    -> JOIN orderdetails od ON o2.orderNumber = od.orderNumber
+    -> LEFT JOIN payments p ON c.customerNumber = p.customerNumber
+    -> GROUP BY o.officeCode;
++------------+---------------+-----------+---------------+
+| officeCode | city          | country   | pendingAmount |
++------------+---------------+-----------+---------------+
+| 1          | San Francisco | USA       | -119651437.12 |
+| 2          | Boston        | USA       |  -19533959.94 |
+| 3          | NYC           | USA       |  -28008966.41 |
+| 4          | Paris         | France    | -231820580.94 |
+| 7          | London        | UK        |  -35774014.19 |
+| 6          | Sydney        | Australia |  -38451087.11 |
+| 5          | Tokyo         | Japan     |  -12865639.32 |
++------------+---------------+-----------+---------------+
+7 rows in set (0.12 sec)
+
+mysql>
+mysql> SELECT customerName, country, creditLimit, creditLimit/countryTotal.total AS creditProportion FROM customers
+    -> JOIN( SELECT country, SUM(creditLimit) AS total
+    ->       FROM customers
+    ->       GROUP BY country
+    ->     ) AS countryTotal ON customers.country = countryTotal.country;
+ERROR 1052 (23000): Column 'country' in field list is ambiguous
+mysql> SELECT customerName, country, creditLimit,
+    ->        creditLimit / countryTotal.total AS creditProportion
+    -> FROM customers
+    -> JOIN (
+    ->     SELECT country, SUM(creditLimit) AS total
+    ->     FROM customers
+    ->     GROUP BY country
+    -> ) AS countryTotal ON customers.country = countryTotal.country;
+ERROR 1052 (23000): Column 'country' in field list is ambiguous
+mysql>
+mysql> SELECT customerName, country, creditLimit,
+    ->        creditLimit / countryTotal.total AS creditProportion
+    -> FROM customers
+    -> JOIN (
+    ->     SELECT country, SUM(creditLimit) AS total
+    ->     FROM customers
+    ->     GROUP BY country
+    -> ) AS countryTotal ON customers.country = countryTotal.country;
+ERROR 1052 (23000): Column 'country' in field list is ambiguous
+mysql> SELECT customerName, country, creditLimit,
+    ->
+    ->
+    -> ))
+    -> ));
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '))
+))' at line 4
+mysql> SELECT c.customerName,
+    -> c.country, c.creditLimit, c.creditLimit/ct.total AS creditProportion
+    -> FROM customers c
+    -> JOIN(
+    ->   SELECT country, SUM(creditLimit) AS total
+    ->   FROM customers
+    ->   GROUP BY country
+    -> ) AS ct ON c.country = ct.country;
++------------------------------------+--------------+-------------+------------------+
+| customerName                       | country      | creditLimit | creditProportion |
++------------------------------------+--------------+-------------+------------------+
+| Atelier graphique                  | France       |    21000.00 |         0.022525 |
+| Signal Gift Stores                 | USA          |    71800.00 |         0.025536 |
+| Australian Collectors, Co.         | Australia    |   117300.00 |         0.272601 |
+| La Rochelle Gifts                  | France       |   118200.00 |         0.126783 |
+| Baane Mini Imports                 | Norway       |    81700.00 |         1.000000 |
+| Mini Gifts Distributors Ltd.       | USA          |   210500.00 |         0.074866 |
+| Havel & Zbyszek Co                 | Poland       |        0.00 |             NULL |
+| Blauer See Auto, Co.               | Germany      |    59700.00 |         0.232205 |
+| Mini Wheels Co.                    | USA          |    64600.00 |         0.022975 |
+| Land of Toys Inc.                  | USA          |   114900.00 |         0.040865 |
+| Euro+ Shopping Channel             | Spain        |   227600.00 |         0.439552 |
+| Volvo Model Replicas, Co           | Sweden       |    53100.00 |         0.313274 |
+| Danish Wholesale Imports           | Denmark      |    83400.00 |         0.408423 |
+| Saveley & Henriot, Co.             | France       |   123900.00 |         0.132897 |
+| Dragon Souveniers, Ltd.            | Singapore    |   103800.00 |         0.514626 |
+| Muscle Machine Inc                 | USA          |   138500.00 |         0.049258 |
+| Diecast Classics Inc.              | USA          |   100600.00 |         0.035779 |
+| Technics Stores Inc.               | USA          |    84600.00 |         0.030089 |
+| Handji Gifts& Co                   | Singapore    |    97900.00 |         0.485374 |
+| Herkku Gifts                       | Norway       |    96800.00 |         0.504429 |
+| American Souvenirs Inc             | USA          |        0.00 |         0.000000 |
+| Porto Imports Co.                  | Portugal     |        0.00 |             NULL |
+| Daedalus Designs Imports           | France       |    82900.00 |         0.088920 |
+| La Corne D'abondance, Co.          | France       |    84300.00 |         0.090422 |
+| Cambridge Collectables Co.         | USA          |    43400.00 |         0.015436 |
+| Gift Depot Inc.                    | USA          |    84300.00 |         0.029982 |
+| Osaka Souveniers Co.               | Japan        |    81200.00 |         0.462415 |
+| Vitachrome Inc.                    | USA          |    76400.00 |         0.027172 |
+| Toys of Finland, Co.               | Finland      |    96500.00 |         0.337649 |
+| AV Stores, Co.                     | UK           |   136800.00 |         0.308316 |
+| Clover Collections, Co.            | Ireland      |    69400.00 |         1.000000 |
+| Auto-Moto Classics Inc.            | USA          |    23000.00 |         0.008180 |
+| UK Collectables, Ltd.              | UK           |    92700.00 |         0.208925 |
+| Canadian Gift Exchange Network     | Canada       |    90300.00 |         0.395013 |
+| Online Mini Collectables           | USA          |    68700.00 |         0.024434 |
+| Toys4GrownUps.com                  | USA          |    90700.00 |         0.032258 |
+| Asian Shopping Network, Co         | Singapore    |        0.00 |         0.000000 |
+| Mini Caravy                        | France       |    53800.00 |         0.057707 |
+| King Kong Collectables, Co.        | Hong Kong    |    58600.00 |         1.000000 |
+| Enaco Distributors                 | Spain        |    60300.00 |         0.116454 |
+| Boards & Toys Co.                  | USA          |    11000.00 |         0.003912 |
+| Natürlich Autos                    | Germany      |        0.00 |         0.000000 |
+| Heintze Collectables               | Denmark      |   120800.00 |         0.591577 |
+| Québec Home Shopping Network       | Canada       |    48700.00 |         0.213036 |
+| ANG Resellers                      | Spain        |        0.00 |         0.000000 |
+| Collectable Mini Designs Co.       | USA          |   105000.00 |         0.037344 |
+| giftsbymail.co.uk                  | UK           |    93900.00 |         0.211629 |
+| Alpha Cognac                       | France       |    61100.00 |         0.065537 |
+| Messner Shopping Network           | Germany      |        0.00 |         0.000000 |
+| Amica Models & Co.                 | Italy        |   113000.00 |         0.290638 |
+| Lyon Souveniers                    | France       |    68100.00 |         0.073045 |
+| Auto Associés & Cie.               | France       |    77900.00 |         0.083557 |
+| Toms Spezialitäten, Ltd            | Germany      |   120400.00 |         0.468300 |
+| Royal Canadian Collectables, Ltd.  | Canada       |    89600.00 |         0.391951 |
+| Franken Gifts, Co                  | Germany      |        0.00 |         0.000000 |
+| Anna's Decorations, Ltd            | Australia    |   107800.00 |         0.250523 |
+| Rovelli Gifts                      | Italy        |   119600.00 |         0.307613 |
+| Souveniers And Things Co.          | Australia    |    93300.00 |         0.216825 |
+| Marta's Replicas Co.               | USA          |   123700.00 |         0.043995 |
+| BG&E Collectables                  | Switzerland  |        0.00 |         0.000000 |
+| Vida Sport, Ltd                    | Switzerland  |   141300.00 |         1.000000 |
+| Norway Gifts By Mail, Co.          | Norway       |    95100.00 |         0.495571 |
+| Schuyler Imports                   | Netherlands  |        0.00 |             NULL |
+| Der Hund Imports                   | Germany      |        0.00 |         0.000000 |
+| Oulu Toy Supplies, Inc.            | Finland      |    90500.00 |         0.316655 |
+| Petit Auto                         | Belgium      |    79900.00 |         0.772727 |
+| Mini Classics                      | USA          |   102700.00 |         0.036526 |
+| Mini Creations Ltd.                | USA          |    94500.00 |         0.033610 |
+| Corporate Gift Ideas Co.           | USA          |   105000.00 |         0.037344 |
+| Down Under Souveniers, Inc         | New Zealand  |    88000.00 |         0.242759 |
+| Stylish Desk Decors, Co.           | UK           |    77000.00 |         0.173541 |
+| Tekni Collectables Inc.            | USA          |    43000.00 |         0.015293 |
+| Australian Gift Network, Co        | Australia    |    51600.00 |         0.119916 |
+| Suominen Souveniers                | Finland      |    98800.00 |         0.345696 |
+| Cramer Spezialitäten, Ltd          | Germany      |        0.00 |         0.000000 |
+| Classic Gift Ideas, Inc            | USA          |    81100.00 |         0.028844 |
+| CAF Imports                        | Spain        |    59600.00 |         0.115102 |
+| Men 'R' US Retailers, Ltd.         | USA          |    57700.00 |         0.020521 |
+| Asian Treasures, Inc.              | Ireland      |        0.00 |         0.000000 |
+| Marseille Mini Autos               | France       |    65000.00 |         0.069720 |
+| Reims Collectables                 | France       |    81100.00 |         0.086989 |
+| SAR Distributors, Co               | South Africa |        0.00 |             NULL |
+| GiftsForHim.com                    | New Zealand  |    77700.00 |         0.214345 |
+| Kommission Auto                    | Germany      |        0.00 |         0.000000 |
+| Gifts4AllAges.com                  | USA          |    41900.00 |         0.014902 |
+| Online Diecast Creations Co.       | USA          |   114200.00 |         0.040616 |
+| Lisboa Souveniers, Inc             | Portugal     |        0.00 |             NULL |
+| Precious Collectables              | Switzerland  |        0.00 |         0.000000 |
+| Collectables For Less Inc.         | USA          |    70700.00 |         0.025145 |
+| Royale Belge                       | Belgium      |    23500.00 |         0.227273 |
+| Salzburg Collectables              | Austria      |    71700.00 |         0.612821 |
+| Cruz & Sons Co.                    | Philippines  |    81500.00 |         1.000000 |
+| L'ordine Souveniers                | Italy        |   121400.00 |         0.312243 |
+| Tokyo Collectables, Ltd            | Japan        |    94400.00 |         0.537585 |
+| Auto Canal+ Petit                  | France       |    95000.00 |         0.101899 |
+| Stuttgart Collectable Exchange     | Germany      |        0.00 |         0.000000 |
+| Extreme Desk Decorations, Ltd      | New Zealand  |    86800.00 |         0.239448 |
+| Bavarian Collectables Imports, Co. | Germany      |    77000.00 |         0.299494 |
+| Classic Legends Inc.               | USA          |    67500.00 |         0.024007 |
+| Feuer Online Stores, Inc           | Germany      |        0.00 |         0.000000 |
+| Gift Ideas Corp.                   | USA          |    49700.00 |         0.017676 |
+| Scandinavian Gift Ideas            | Sweden       |   116400.00 |         0.686726 |
+| The Sharp Gifts Warehouse          | USA          |    77600.00 |         0.027599 |
+| Mini Auto Werke                    | Austria      |    45300.00 |         0.387179 |
+| Super Scale Inc.                   | USA          |    95400.00 |         0.033930 |
+| Microscale Inc.                    | USA          |    39800.00 |         0.014155 |
+| Corrida Auto Replicas, Ltd         | Spain        |   104600.00 |         0.202008 |
+| Warburg Exchange                   | Germany      |        0.00 |         0.000000 |
+| FunGiftIdeas.com                   | USA          |    85800.00 |         0.030515 |
+| Anton Designs, Ltd.                | Spain        |        0.00 |         0.000000 |
+| Australian Collectables, Ltd       | Australia    |    60300.00 |         0.140135 |
+| Frau da Collezione                 | Italy        |    34800.00 |         0.089506 |
+| West Coast Collectables Co.        | USA          |    55400.00 |         0.019703 |
+| Mit Vergnügen & Co.                | Germany      |        0.00 |         0.000000 |
+| Kremlin Collectables, Co.          | Russia       |        0.00 |             NULL |
+| Raanan Stores, Inc                 | Israel       |        0.00 |             NULL |
+| Iberia Gift Imports, Corp.         | Spain        |    65700.00 |         0.126883 |
+| Motor Mint Distributors Inc.       | USA          |    72600.00 |         0.025821 |
+| Signal Collectibles Ltd.           | USA          |    60300.00 |         0.021446 |
+| Double Decker Gift Stores, Ltd     | UK           |    43300.00 |         0.097588 |
+| Diecast Collectables               | USA          |    85100.00 |         0.030266 |
+| Kelly's Gift Shop                  | New Zealand  |   110000.00 |         0.303448 |
++------------------------------------+--------------+-------------+------------------+
+122 rows in set, 7 warnings (0.04 sec)
+
+mysql> CREATE VIEW customer_summary AS
+    -> select c.customerName,
+    ->  concat(addressLine1, ', ', addressLine2, ', ', state, ',',
+    ->  postalCode, ',', country) AS fullAddress,
+    ->  COUNT (o.orderNumber) AS totalOrders
+    -> FROM customers C
+    -> left join orders o on C.customerNumber = o.customerNumber
+    -> GROUP BY C.customerNumber;
+ERROR 1630 (42000): FUNCTION classicmodels.COUNT does not exist. Check the 'Function Name Parsing and Resolution' section in the Reference Manual
+mysql> CREATE VIEW customer_summary AS
+    -> SELECT c.customerName,
+    ->        CONCAT(addressLine1, ', ', addressLine2, ', ', city, ', ', state, ', ', postalCode, ', ', country) AS fullAddress,
+    ->        COUNT(o.orderNumber) AS totalOrders
+    -> FROM customers c
+    -> LEFT JOIN orders o ON c.customerNumber = o.customerNumber
+    -> GROUP BY c.customerNumber;
+Query OK, 0 rows affected (0.03 sec)
+
+mysql>
+mysql> select * from customer_summary;
++------------------------------------+--------------------------------------------------------------------------+-------------+
+| customerName                       | fullAddress                                                              | totalOrders |
++------------------------------------+--------------------------------------------------------------------------+-------------+
+| Atelier graphique                  | NULL                                                                     |           3 |
+| Signal Gift Stores                 | NULL                                                                     |           3 |
+| Australian Collectors, Co.         | 636 St Kilda Road, Level 3, Melbourne, Victoria, 3004, Australia         |           5 |
+| La Rochelle Gifts                  | NULL                                                                     |           4 |
+| Baane Mini Imports                 | NULL                                                                     |           4 |
+| Mini Gifts Distributors Ltd.       | NULL                                                                     |          17 |
+| Havel & Zbyszek Co                 | NULL                                                                     |           0 |
+| Blauer See Auto, Co.               | NULL                                                                     |           4 |
+| Mini Wheels Co.                    | NULL                                                                     |           3 |
+| Land of Toys Inc.                  | NULL                                                                     |           4 |
+| Euro+ Shopping Channel             | NULL                                                                     |          26 |
+| Volvo Model Replicas, Co           | NULL                                                                     |           4 |
+| Danish Wholesale Imports           | NULL                                                                     |           5 |
+| Saveley & Henriot, Co.             | NULL                                                                     |           3 |
+| Dragon Souveniers, Ltd.            | NULL                                                                     |           5 |
+| Muscle Machine Inc                 | 4092 Furth Circle, Suite 400, NYC, NY, 10022, USA                        |           4 |
+| Diecast Classics Inc.              | NULL                                                                     |           4 |
+| Technics Stores Inc.               | NULL                                                                     |           4 |
+| Handji Gifts& Co                   | NULL                                                                     |           4 |
+| Herkku Gifts                       | NULL                                                                     |           3 |
+| American Souvenirs Inc             | 149 Spinnaker Dr., Suite 101, New Haven, CT, 97823, USA                  |           0 |
+| Porto Imports Co.                  | NULL                                                                     |           0 |
+| Daedalus Designs Imports           | NULL                                                                     |           2 |
+| La Corne D'abondance, Co.          | NULL                                                                     |           3 |
+| Cambridge Collectables Co.         | NULL                                                                     |           2 |
+| Gift Depot Inc.                    | NULL                                                                     |           3 |
+| Osaka Souveniers Co.               | NULL                                                                     |           2 |
+| Vitachrome Inc.                    | 2678 Kingston Rd., Suite 101, NYC, NY, 10022, USA                        |           3 |
+| Toys of Finland, Co.               | NULL                                                                     |           3 |
+| AV Stores, Co.                     | NULL                                                                     |           3 |
+| Clover Collections, Co.            | NULL                                                                     |           2 |
+| Auto-Moto Classics Inc.            | NULL                                                                     |           3 |
+| UK Collectables, Ltd.              | NULL                                                                     |           3 |
+| Canadian Gift Exchange Network     | NULL                                                                     |           2 |
+| Online Mini Collectables           | NULL                                                                     |           2 |
+| Toys4GrownUps.com                  | NULL                                                                     |           3 |
+| Asian Shopping Network, Co         | NULL                                                                     |           0 |
+| Mini Caravy                        | NULL                                                                     |           3 |
+| King Kong Collectables, Co.        | NULL                                                                     |           2 |
+| Enaco Distributors                 | NULL                                                                     |           3 |
+| Boards & Toys Co.                  | NULL                                                                     |           2 |
+| Natürlich Autos                    | NULL                                                                     |           0 |
+| Heintze Collectables               | NULL                                                                     |           2 |
+| Québec Home Shopping Network       | NULL                                                                     |           3 |
+| ANG Resellers                      | NULL                                                                     |           0 |
+| Collectable Mini Designs Co.       | NULL                                                                     |           2 |
+| giftsbymail.co.uk                  | Garden House, Crowther Way 23, Cowes, Isle of Wight, PO31 7PJ, UK        |           2 |
+| Alpha Cognac                       | NULL                                                                     |           3 |
+| Messner Shopping Network           | NULL                                                                     |           0 |
+| Amica Models & Co.                 | NULL                                                                     |           2 |
+| Lyon Souveniers                    | NULL                                                                     |           3 |
+| Auto Associés & Cie.               | NULL                                                                     |           2 |
+| Toms Spezialitäten, Ltd            | NULL                                                                     |           2 |
+| Royal Canadian Collectables, Ltd.  | NULL                                                                     |           2 |
+| Franken Gifts, Co                  | NULL                                                                     |           0 |
+| Anna's Decorations, Ltd            | 201 Miller Street, Level 15, North Sydney, NSW, 2060, Australia          |           4 |
+| Rovelli Gifts                      | NULL                                                                     |           3 |
+| Souveniers And Things Co.          | Monitor Money Building, 815 Pacific Hwy, Chatswood, NSW, 2067, Australia |           4 |
+| Marta's Replicas Co.               | NULL                                                                     |           2 |
+| BG&E Collectables                  | NULL                                                                     |           0 |
+| Vida Sport, Ltd                    | NULL                                                                     |           2 |
+| Norway Gifts By Mail, Co.          | NULL                                                                     |           2 |
+| Schuyler Imports                   | NULL                                                                     |           0 |
+| Der Hund Imports                   | NULL                                                                     |           0 |
+| Oulu Toy Supplies, Inc.            | NULL                                                                     |           3 |
+| Petit Auto                         | NULL                                                                     |           3 |
+| Mini Classics                      | NULL                                                                     |           2 |
+| Mini Creations Ltd.                | NULL                                                                     |           3 |
+| Corporate Gift Ideas Co.           | NULL                                                                     |           4 |
+| Down Under Souveniers, Inc         | NULL                                                                     |           5 |
+| Stylish Desk Decors, Co.           | NULL                                                                     |           3 |
+| Tekni Collectables Inc.            | NULL                                                                     |           3 |
+| Australian Gift Network, Co        | NULL                                                                     |           3 |
+| Suominen Souveniers                | NULL                                                                     |           3 |
+| Cramer Spezialitäten, Ltd          | NULL                                                                     |           0 |
+| Classic Gift Ideas, Inc            | NULL                                                                     |           2 |
+| CAF Imports                        | NULL                                                                     |           2 |
+| Men 'R' US Retailers, Ltd.         | NULL                                                                     |           2 |
+| Asian Treasures, Inc.              | NULL                                                                     |           0 |
+| Marseille Mini Autos               | NULL                                                                     |           3 |
+| Reims Collectables                 | NULL                                                                     |           5 |
+| SAR Distributors, Co               | NULL                                                                     |           0 |
+| GiftsForHim.com                    | NULL                                                                     |           3 |
+| Kommission Auto                    | NULL                                                                     |           0 |
+| Gifts4AllAges.com                  | NULL                                                                     |           3 |
+| Online Diecast Creations Co.       | NULL                                                                     |           3 |
+| Lisboa Souveniers, Inc             | NULL                                                                     |           0 |
+| Precious Collectables              | NULL                                                                     |           0 |
+| Collectables For Less Inc.         | NULL                                                                     |           3 |
+| Royale Belge                       | NULL                                                                     |           4 |
+| Salzburg Collectables              | NULL                                                                     |           4 |
+| Cruz & Sons Co.                    | NULL                                                                     |           3 |
+| L'ordine Souveniers                | NULL                                                                     |           3 |
+| Tokyo Collectables, Ltd            | NULL                                                                     |           4 |
+| Auto Canal+ Petit                  | NULL                                                                     |           3 |
+| Stuttgart Collectable Exchange     | NULL                                                                     |           0 |
+| Extreme Desk Decorations, Ltd      | NULL                                                                     |           3 |
+| Bavarian Collectables Imports, Co. | NULL                                                                     |           1 |
+| Classic Legends Inc.               | 5905 Pompton St., Suite 750, NYC, NY, 10022, USA                         |           3 |
+| Feuer Online Stores, Inc           | NULL                                                                     |           0 |
+| Gift Ideas Corp.                   | NULL                                                                     |           3 |
+| Scandinavian Gift Ideas            | NULL                                                                     |           3 |
+| The Sharp Gifts Warehouse          | NULL                                                                     |           4 |
+| Mini Auto Werke                    | NULL                                                                     |           3 |
+| Super Scale Inc.                   | NULL                                                                     |           2 |
+| Microscale Inc.                    | 5290 North Pendale Street, Suite 200, NYC, NY, 10022, USA                |           2 |
+| Corrida Auto Replicas, Ltd         | NULL                                                                     |           3 |
+| Warburg Exchange                   | NULL                                                                     |           0 |
+| FunGiftIdeas.com                   | NULL                                                                     |           3 |
+| Anton Designs, Ltd.                | NULL                                                                     |           0 |
+| Australian Collectables, Ltd       | NULL                                                                     |           3 |
+| Frau da Collezione                 | NULL                                                                     |           2 |
+| West Coast Collectables Co.        | NULL                                                                     |           2 |
+| Mit Vergnügen & Co.                | NULL                                                                     |           0 |
+| Kremlin Collectables, Co.          | NULL                                                                     |           0 |
+| Raanan Stores, Inc                 | NULL                                                                     |           0 |
+| Iberia Gift Imports, Corp.         | NULL                                                                     |           2 |
+| Motor Mint Distributors Inc.       | NULL                                                                     |           3 |
+| Signal Collectibles Ltd.           | NULL                                                                     |           2 |
+| Double Decker Gift Stores, Ltd     | NULL                                                                     |           2 |
+| Diecast Collectables               | NULL                                                                     |           2 |
+| Kelly's Gift Shop                  | NULL                                                                     |           4 |
++------------------------------------+--------------------------------------------------------------------------+-------------+
+122 rows in set (0.03 sec)
+
+mysql> update customers set country = "Nepal" where customerNumber = 114;
+Query OK, 1 row affected (0.08 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> SELECT * from customer where customerNumber = 114;
+ERROR 1146 (42S02): Table 'classicmodels.customer' doesn't exist
+mysql> SELECT * from customers where customerNumber = 114;
++----------------+----------------------------+-----------------+------------------+--------------+-------------------+--------------+-----------+----------+------------+---------+------------------------+-------------+
+| customerNumber | customerName               | contactLastName | contactFirstName | phone        | addressLine1      | addressLine2 | city      | state    | postalCode | country | salesRepEmployeeNumber | creditLimit |
++----------------+----------------------------+-----------------+------------------+--------------+-------------------+--------------+-----------+----------+------------+---------+------------------------+-------------+
+|            114 | Australian Collectors, Co. | Ferguson        | Peter            | 03 9520 4555 | 636 St Kilda Road | Level 3      | Melbourne | Victoria | 3004       | Nepal   |                   1611 |   117300.00 |
++----------------+----------------------------+-----------------+------------------+--------------+-------------------+--------------+-----------+----------+------------+---------+------------------------+-------------+
+1 row in set (0.01 sec)
+
+mysql> DELETE FROM payments where amount < 20000;
+Query OK, 78 rows affected (0.03 sec)
+
+mysql> SELECT * from payments where amount < 20000;
+Empty set (0.00 sec)
+
+mysql> SELECT * from payments;
++----------------+-------------+-------------+-----------+
+| customerNumber | checkNumber | paymentDate | amount    |
++----------------+-------------+-------------+-----------+
+|            112 | HQ55022     | 2003-06-06  |  32641.98 |
+|            112 | ND748579    | 2004-08-20  |  33347.88 |
+|            114 | GG31455     | 2003-05-20  |  45864.03 |
+|            114 | MA765515    | 2004-12-15  |  82261.22 |
+|            114 | NR27552     | 2004-03-10  |  44894.74 |
+|            119 | LN373447    | 2004-08-08  |  47924.19 |
+|            119 | NG94694     | 2005-02-22  |  49523.67 |
+|            121 | DB889831    | 2003-02-16  |  50218.95 |
+|            121 | MA302151    | 2004-11-28  |  34638.14 |
+|            124 | AE215433    | 2005-03-05  | 101244.59 |
+|            124 | BG255406    | 2004-08-28  |  85410.87 |
+|            124 | ET64396     | 2005-04-16  |  83598.04 |
+|            124 | HI366474    | 2004-12-27  |  47142.70 |
+|            124 | HR86578     | 2004-11-02  |  55639.66 |
+|            124 | KI131716    | 2003-08-15  | 111654.40 |
+|            124 | LF217299    | 2004-03-26  |  43369.30 |
+|            124 | NT141748    | 2003-11-25  |  45084.38 |
+|            128 | FA465482    | 2003-10-18  |  24101.81 |
+|            128 | FH668230    | 2004-03-24  |  33820.62 |
+|            129 | DM826140    | 2004-12-08  |  26248.78 |
+|            129 | ID449593    | 2003-12-11  |  23923.93 |
+|            131 | CL442705    | 2003-03-12  |  22292.62 |
+|            131 | MA724562    | 2004-12-02  |  50025.35 |
+|            131 | NB445135    | 2004-09-11  |  35321.97 |
+|            141 | AU364101    | 2003-07-19  |  36251.03 |
+|            141 | DB583216    | 2004-11-01  |  36140.38 |
+|            141 | DL460618    | 2005-05-19  |  46895.48 |
+|            141 | HJ32686     | 2004-01-30  |  59830.55 |
+|            141 | ID10962     | 2004-12-31  | 116208.40 |
+|            141 | IN446258    | 2005-03-25  |  65071.26 |
+|            141 | JE105477    | 2005-03-18  | 120166.58 |
+|            141 | JN355280    | 2003-10-26  |  49539.37 |
+|            141 | JN722010    | 2003-02-25  |  40206.20 |
+|            141 | KT52578     | 2003-12-09  |  63843.55 |
+|            141 | MC46946     | 2004-07-09  |  35420.74 |
+|            141 | MF629602    | 2004-08-16  |  20009.53 |
+|            141 | NU627706    | 2004-05-17  |  26155.91 |
+|            144 | IR846303    | 2004-12-12  |  36005.71 |
+|            145 | ED39322     | 2004-04-26  |  28211.70 |
+|            145 | HR182688    | 2004-12-01  |  20564.86 |
+|            145 | JJ246391    | 2003-02-20  |  53959.21 |
+|            146 | FP549817    | 2004-03-18  |  40978.53 |
+|            146 | FU793410    | 2004-01-16  |  49614.72 |
+|            146 | LJ160635    | 2003-12-10  |  39712.10 |
+|            148 | BI507030    | 2003-04-22  |  44380.15 |
+|            148 | KM172879    | 2003-12-26  | 105743.00 |
+|            151 | BF686658    | 2003-12-22  |  58793.53 |
+|            151 | GB852215    | 2004-07-26  |  20314.44 |
+|            151 | IP568906    | 2003-06-18  |  58841.35 |
+|            151 | KI884577    | 2004-12-14  |  39964.63 |
+|            157 | HI618861    | 2004-11-19  |  35152.12 |
+|            157 | NN711988    | 2004-09-07  |  63357.13 |
+|            161 | BR478494    | 2003-11-18  |  50743.65 |
+|            161 | NI908214    | 2003-08-05  |  38675.13 |
+|            166 | BQ327613    | 2004-09-16  |  38785.48 |
+|            166 | DC979307    | 2004-07-07  |  44160.92 |
+|            166 | LA318629    | 2004-02-28  |  22474.17 |
+|            167 | GN228846    | 2003-12-03  |  85024.46 |
+|            171 | IL104425    | 2003-11-22  |  42783.81 |
+|            172 | CE51751     | 2004-12-04  |  51209.58 |
+|            172 | EH208589    | 2003-04-20  |  33383.14 |
+|            173 | IG462397    | 2004-03-29  |  20355.24 |
+|            175 | CITI3434344 | 2005-05-19  |  28500.78 |
+|            175 | IO448913    | 2003-11-19  |  24879.08 |
+|            175 | PI15215     | 2004-07-10  |  42044.77 |
+|            177 | CI381435    | 2004-01-19  |  47177.59 |
+|            181 | CM564612    | 2004-04-25  |  22602.36 |
+|            181 | OH367219    | 2004-11-16  |  44400.50 |
+|            186 | AE192287    | 2005-03-10  |  23602.90 |
+|            186 | AK412714    | 2003-10-27  |  37602.48 |
+|            186 | KA602407    | 2004-10-21  |  34341.08 |
+|            187 | AM968797    | 2004-11-03  |  52825.29 |
+|            187 | BQ39062     | 2004-12-08  |  47159.11 |
+|            187 | KL124726    | 2003-03-27  |  48425.69 |
+|            189 | NM916675    | 2004-03-01  |  32538.74 |
+|            201 | DP677013    | 2003-10-20  |  23908.24 |
+|            201 | OO846801    | 2004-06-15  |  37258.94 |
+|            202 | HI358554    | 2003-12-18  |  36527.61 |
+|            202 | IQ627690    | 2004-11-08  |  33594.58 |
+|            204 | GC697638    | 2004-08-13  |  51152.86 |
+|            205 | LL562733    | 2003-09-05  |  50342.74 |
+|            205 | NM739638    | 2005-02-06  |  39580.60 |
+|            209 | BOAF82044   | 2005-05-03  |  35157.75 |
+|            209 | PH785937    | 2004-05-04  |  36069.26 |
+|            211 | BJ535230    | 2003-12-09  |  45480.79 |
+|            216 | ML780814    | 2004-12-06  |  24945.21 |
+|            216 | MM342086    | 2003-12-14  |  40473.86 |
+|            227 | MQ413968    | 2003-10-31  |  36164.46 |
+|            227 | NU21326     | 2004-11-02  |  53745.34 |
+|            233 | BOFA23232   | 2005-05-20  |  29070.38 |
+|            233 | II180006    | 2004-07-01  |  22997.45 |
+|            239 | NQ865547    | 2004-03-15  |  80375.24 |
+|            240 | IF245157    | 2004-11-16  |  46788.14 |
+|            240 | JO719695    | 2004-03-28  |  24995.61 |
+|            242 | AF40894     | 2003-11-22  |  33818.34 |
+|            249 | IJ399820    | 2004-09-19  |  33924.24 |
+|            249 | NE404084    | 2004-09-04  |  48298.99 |
+|            250 | HD284647    | 2004-12-30  |  26311.63 |
+|            250 | HN114306    | 2003-07-18  |  23419.47 |
+|            256 | HE84936     | 2004-10-22  |  53116.99 |
+|            259 | EU280955    | 2004-11-06  |  61234.67 |
+|            259 | GB361972    | 2003-12-07  |  27988.47 |
+|            260 | IO164641    | 2004-08-30  |  37527.58 |
+|            260 | NH776924    | 2004-04-24  |  29284.42 |
+|            276 | EM979878    | 2005-02-09  |  27083.78 |
+|            276 | KM841847    | 2003-11-13  |  38547.19 |
+|            276 | LE432182    | 2003-09-28  |  41554.73 |
+|            276 | OJ819725    | 2005-04-30  |  29848.52 |
+|            278 | BJ483870    | 2004-12-05  |  37654.09 |
+|            278 | GP636783    | 2003-03-02  |  52151.81 |
+|            278 | NI983021    | 2003-11-24  |  37723.79 |
+|            282 | IA793562    | 2003-08-03  |  24013.52 |
+|            282 | JT819493    | 2004-08-02  |  35806.73 |
+|            282 | OD327378    | 2005-01-03  |  31835.36 |
+|            286 | DR578578    | 2004-10-28  |  47411.33 |
+|            286 | KH910279    | 2004-09-05  |  43134.04 |
+|            298 | AJ574927    | 2004-03-13  |  47375.92 |
+|            298 | LF501133    | 2004-09-18  |  61402.00 |
+|            299 | AD304085    | 2003-10-24  |  36798.88 |
+|            299 | NR157385    | 2004-09-05  |  32260.16 |
+|            311 | DG336041    | 2005-02-15  |  46770.52 |
+|            311 | FA728475    | 2003-10-06  |  32723.04 |
+|            314 | LQ244073    | 2004-08-09  |  45352.47 |
+|            319 | HL685576    | 2004-11-06  |  42339.76 |
+|            319 | OM548174    | 2003-12-07  |  36092.40 |
+|            320 | HO576374    | 2003-08-20  |  41016.75 |
+|            320 | MU817160    | 2003-11-24  |  52548.49 |
+|            321 | DJ15149     | 2003-11-03  |  85559.12 |
+|            321 | LA556321    | 2005-03-15  |  46781.66 |
+|            323 | AL493079    | 2005-05-23  |  75020.13 |
+|            323 | ES347491    | 2004-06-24  |  37281.36 |
+|            323 | PQ803830    | 2004-12-24  |  39440.59 |
+|            324 | FP443161    | 2003-07-07  |  29429.14 |
+|            324 | HB150714    | 2003-11-23  |  37455.77 |
+|            328 | NR631421    | 2004-05-30  |  31102.85 |
+|            333 | HL209210    | 2003-11-15  |  23936.53 |
+|            333 | NF959653    | 2005-03-01  |  21432.31 |
+|            334 | CS435306    | 2005-01-27  |  45785.34 |
+|            334 | HH517378    | 2003-08-16  |  29716.86 |
+|            334 | LF737277    | 2004-05-22  |  28394.54 |
+|            339 | AP286625    | 2004-10-24  |  23333.06 |
+|            339 | DA98827     | 2003-11-28  |  34606.28 |
+|            344 | AF246722    | 2003-11-24  |  31428.21 |
+|            347 | DG700707    | 2004-01-18  |  21053.69 |
+|            347 | LG808674    | 2003-10-24  |  20452.50 |
+|            350 | CI471510    | 2003-05-25  |  50824.66 |
+|            353 | CO351193    | 2005-01-10  |  49705.52 |
+|            353 | HJ618252    | 2005-06-09  |  46656.94 |
+|            357 | AG240323    | 2003-12-16  |  20220.04 |
+|            357 | NB291497    | 2004-05-15  |  36442.34 |
+|            363 | HL575273    | 2004-11-17  |  50799.69 |
+|            363 | PN238558    | 2003-12-05  |  55425.77 |
+|            379 | CA762595    | 2005-02-12  |  28322.83 |
+|            379 | FR499138    | 2003-09-16  |  32680.31 |
+|            382 | CC871084    | 2003-05-12  |  35826.33 |
+|            382 | PH29054     | 2004-11-27  |  42813.83 |
+|            385 | BN347084    | 2003-12-02  |  20644.24 |
+|            385 | EK785462    | 2003-03-09  |  51001.22 |
+|            386 | DO106109    | 2003-11-18  |  38524.29 |
+|            386 | HG438769    | 2004-07-18  |  51619.02 |
+|            398 | AJ478695    | 2005-02-14  |  33967.73 |
+|            398 | DO787644    | 2004-06-21  |  22037.91 |
+|            398 | KB54275     | 2004-11-29  |  48927.64 |
+|            406 | HJ217687    | 2004-01-28  |  49165.16 |
+|            406 | NA197101    | 2004-06-17  |  25080.96 |
+|            412 | GH197075    | 2004-07-25  |  35034.57 |
+|            412 | PJ434867    | 2004-04-14  |  31670.37 |
+|            415 | ER54537     | 2004-09-28  |  31310.09 |
+|            424 | KF480160    | 2004-12-07  |  25505.98 |
+|            424 | LM271923    | 2003-04-16  |  21665.98 |
+|            424 | OA595449    | 2003-10-31  |  22042.37 |
+|            447 | OU516561    | 2004-12-17  |  26304.13 |
+|            448 | FS299615    | 2005-04-18  |  27966.54 |
+|            448 | KR822727    | 2004-09-30  |  48809.90 |
+|            450 | EF485824    | 2004-06-21  |  59551.38 |
+|            452 | ED473873    | 2003-11-15  |  27121.90 |
+|            455 | HA777606    | 2003-12-05  |  38139.18 |
+|            455 | IR662429    | 2004-05-12  |  32239.47 |
+|            456 | GJ715659    | 2004-11-13  |  27550.51 |
+|            458 | DD995006    | 2004-11-15  |  33145.56 |
+|            458 | NA377824    | 2004-02-06  |  22162.61 |
+|            458 | OO606861    | 2003-06-13  |  57131.92 |
+|            462 | ED203908    | 2005-04-15  |  30293.77 |
+|            462 | PE176846    | 2004-11-27  |  48355.87 |
+|            471 | CO645196    | 2003-12-10  |  35505.63 |
+|            475 | PB951268    | 2004-02-13  |  36070.47 |
+|            484 | JH546765    | 2003-11-29  |  47513.19 |
+|            486 | HS86661     | 2004-11-23  |  45994.07 |
+|            486 | JB117768    | 2003-03-20  |  25833.14 |
+|            487 | AH612904    | 2003-09-28  |  29997.09 |
+|            489 | OC773849    | 2003-12-04  |  22275.73 |
+|            495 | BH167026    | 2003-12-26  |  59265.14 |
+|            496 | EU531600    | 2005-05-25  |  30253.75 |
+|            496 | MB342426    | 2003-07-16  |  32077.44 |
+|            496 | MN89921     | 2004-12-31  |  52166.00 |
++----------------+-------------+-------------+-----------+
+195 rows in set (0.01 sec)
+
+mysql> SELECT * from payments limit 5;
++----------------+-------------+-------------+----------+
+| customerNumber | checkNumber | paymentDate | amount   |
++----------------+-------------+-------------+----------+
+|            112 | HQ55022     | 2003-06-06  | 32641.98 |
+|            112 | ND748579    | 2004-08-20  | 33347.88 |
+|            114 | GG31455     | 2003-05-20  | 45864.03 |
+|            114 | MA765515    | 2004-12-15  | 82261.22 |
+|            114 | NR27552     | 2004-03-10  | 44894.74 |
++----------------+-------------+-------------+----------+
+5 rows in set (0.00 sec)
+
+mysql> INSERT INTO Payments (customerNumber, checkNumber, paymentDate, amount) VALUES(114, "CHK123456", "2025-05-19", 450000.00);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> SELECT * FROM customers WHERE customerNumber = 114;
++----------------+----------------------------+-----------------+------------------+--------------+-------------------+--------------+-----------+----------+------------+---------+------------------------+-------------+
+| customerNumber | customerName               | contactLastName | contactFirstName | phone        | addressLine1      | addressLine2 | city      | state    | postalCode | country | salesRepEmployeeNumber | creditLimit |
++----------------+----------------------------+-----------------+------------------+--------------+-------------------+--------------+-----------+----------+------------+---------+------------------------+-------------+
+|            114 | Australian Collectors, Co. | Ferguson        | Peter            | 03 9520 4555 | 636 St Kilda Road | Level 3      | Melbourne | Victoria | 3004       | Nepal   |                   1611 |   117300.00 |
++----------------+----------------------------+-----------------+------------------+--------------+-------------------+--------------+-----------+----------+------------+---------+------------------------+-------------+
+1 row in set (0.00 sec)
+
+mysql> SELECT * FROM Payments WHERE customerNumber = 114 ORDER BY paymentDate DESC LIMIT 5;
++----------------+-------------+-------------+-----------+
+| customerNumber | checkNumber | paymentDate | amount    |
++----------------+-------------+-------------+-----------+
+|            114 | CHK123456   | 2025-05-19  | 450000.00 |
+|            114 | MA765515    | 2004-12-15  |  82261.22 |
+|            114 | NR27552     | 2004-03-10  |  44894.74 |
+|            114 | GG31455     | 2003-05-20  |  45864.03 |
++----------------+-------------+-------------+-----------+
+4 rows in set (0.01 sec)
+
+mysql>
